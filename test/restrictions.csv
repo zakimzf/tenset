@@ -1,0 +1,16 @@
+function,lock,ROLE_ADMIN,,,,ROLE_MINTER,,,,ROLE_BURNER,,,,ROLE_TRANSFER,,,,ROLE_ALIEN_TOKEN_SENDER,,,,N/A,,,
+,,n/a,acc,temp,final,n/a,acc,temp,final,n/a,acc,temp,final,n/a,acc,temp,final,n/a,acc,temp,final,n/a,acc,temp,final
+burn,LOCK_BURN,1,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,0,1,1,1,0,1
+burnFrom,LOCK_BURN,1,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,0,1,1,1,0,1
+setTempFuncLock,,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+finalFuncLock,,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+adminMint,LOCK_MINT,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+adminBurn,LOCK_BURN,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+adminTimelockTransfer,LOCK_ADDR_TIME_LOCK,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+retrieveTokens,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0
+distributeMint,LOCK_MINT,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+distributeLockOldToken,,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+registerCallback,,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+deregisterCallback,,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+transfer,LOCK_TRANSFER,1,0,0,1,1,0,0,1,1,0,0,1,1,1,1,1,1,0,0,1,1,0,0,1
+transfer,LOCK_TRANSFER,1,0,0,1,1,0,0,1,1,0,0,1,1,1,1,1,1,0,0,1,1,0,0,1
