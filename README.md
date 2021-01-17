@@ -1,6 +1,6 @@
 ![10Set Token](logo.jpg "10Set Token")
 
-# Covesting smart contract
+# 10Set Token smart contract
 
 * _Standart_        : ERC20
 * _Name_            : 10Set Token
