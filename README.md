@@ -2,11 +2,12 @@
 
 # 10Set Token smart contract
 
-* _Standart_        : ERC20
-* _Name_            : 10Set Token
-* _Ticket_          : 10SET
-* _Decimals_        : 18
+* _Standart_        : [ERC20](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md)
+* _[Name](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md#name)            : 10Set Token
+* _[Ticker](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md#symbol)_          : 10SET
+* _[Decimals](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md#decimals)_        : 18
 * _Emission_        : Single, 210 000 000 tokens
+* _Fiat dependency_ : No
 * _Token offers_    : 2
 * _Tokens lock_     : No
 
@@ -77,6 +78,19 @@ EXODUS not support ERC20, but have way to export key into MyEtherWallet - http:/
 * HardCap                           : 52,500,000 10SET
 * Start date                        : 07/03/2021 (7pm GMT+1 time)
 * End date                          : 14/03/2021 (7pm GMT+1 time)
+
+### Links 
+1. _TenSETToken_ contract         :
+2. _DistributionWallet_ contract  :
+3. _PrivateSalePL_ contract       :
+4. _PrivateSaleGL_ contract       :
+5. _FreezeWallet_ contract        :
+6. _Configurator_ contract        :
+7. ETH wallet address             :
+8. Company reverse wallet address :
+9. Liquid Reserve wallet address  :
+10. Teams wallet                  :
+11. Contracts admin address       :
 
 ### Addresses 
 1. _TenSETToken_ contract         :
