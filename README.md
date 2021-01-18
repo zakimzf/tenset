@@ -1,4 +1,4 @@
-![10Set Token](logo.jpg "10Set Token")
+![10SET Token](logo.jpg "10SET Token")
 
 # 10Set Token smart contract
 
@@ -6,14 +6,35 @@
 * _Name_            : 10Set Token
 * _Ticket_          : 10SET
 * _Decimals_        : 18
-* _Emission_        : Single
+* _Emission_        : Single, 210 000 000 tokens
+* _Token offers_    : 2
+* _Tokens lock_     : No
 
 ## Smart-contracts description
 
-New 10SET Token smart-contract
+10SET Token smart-contract
 
-### Contracts contains
-1. _10SETToken_ - Token contract
+### Contracts:
+1. _TenSETToken_ - Token contract
+2. _DistributionWallet_ - Wallet for unsolded tokens
+3. _PrivateSalePL_ 
+4. _PrivateSaleGL_ 
+5. _FreezeWallet_ - Freezing period is 30 months. Every 3 months, 10% of frozen tokens is unfrozen and released to the Team’s wallet.
+6. _Configurator_
+
+### Contract features
+
+#### RFI mechanism
+1. 1% fee each transaction distributed proportionally to all token holder
+2. Ability to block some addresses from receiving staking bonus (exchange liquidity pools)
+
+#### Token burning mechanism
+1. 1% fee each transaction will burn
+2. Burning process stops when the total number of tokens reaches 1% (2,100,000)
+
+#### PolkaStarter launching
+1. Token should be ready to launch on Polkastarter for the Private Sale GL on 7 March.
+2. Whatever is needed to be programmed in Smart Contract now, needs to be there, so there are no issues when we decide to launch on Polkastarter.
 
 ### How to manage contract
 To start working with contract you should follow next steps:
@@ -27,3 +48,49 @@ To start working with contract you should follow next steps:
 3. Mist/Ethereum wallet
 
 EXODUS not support ERC20, but have way to export key into MyEtherWallet - http://support.exodus.io/article/128-how-do-i-receive-unsupported-erc20-tokens
+
+## Main network configuration 
+
+### Token distibution
+1. Company Reserve + marketing (15%): 31,500,000 
+2. Liquid Reserve (5%)              : 10,500,000
+3. Team (10%)                       : 21,500,000
+5. Private sale PL 5.234%           : 11,000,000
+6. Private sale GL 25%              : 52,500,000
+
+### Sale stages
+
+#### Private sale PL
+* Minimum purchase volume           : 0.1 ETH
+* Maximum purchase volume           : 40ETH
+* Price                             : 1 ETH = 10.000 10SET
+* Bonus                             : 10%
+* HardCap                           : 11,000,000 10SET
+* Start date                        : 31/01/2021 (7pm GMT+1 time)
+* End date                          : 07/02/2021 (7pm GMT+1 time)
+
+#### Private sale GL
+* Minimum purchase volume           : 0.1 ETH
+* Maximum purchase volume           : 100 ETH
+* Price                             : 1 ETH = 10.000 10SET
+* Bonus                             : 5%
+* HardCap                           : 52,500,000 10SET
+* Start date                        : 07/03/2021 (7pm GMT+1 time)
+* End date                          : 14/03/2021 (7pm GMT+1 time)
+
+### Addresses 
+1. _TenSETToken_ contract         :
+2. _DistributionWallet_ contract  :
+3. _PrivateSalePL_ contract       :
+4. _PrivateSaleGL_ contract       :
+5. _FreezeWallet_ contract        :
+6. _Configurator_ contract        :
+7. ETH wallet address             :
+8. Company reverse wallet address :
+9. Liquid Reserve wallet address  :
+10. Teams wallet                  :
+11. Contracts admin address       :
+
+### Transactions
+
+## Test network configuration (Ropsten)
