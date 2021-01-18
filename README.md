@@ -23,6 +23,10 @@
 5. _FreezeWallet_ - Freezing period is 30 months. Every 3 months, 10% of frozen tokens is unfrozen and released to the Team’s wallet.
 6. _Configurator_
 
+### Contracts arch
+
+![Arch](arch1.jpg "Arch")
+
 ### Contract features
 
 #### RFI mechanism
@@ -106,5 +110,6 @@ EXODUS not support ERC20, but have way to export key into MyEtherWallet - http:/
 11. Contracts admin address       :
 
 ### Transactions
+
 
 ## Test network configuration (Ropsten)
