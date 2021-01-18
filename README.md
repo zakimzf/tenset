@@ -17,7 +17,7 @@
 
 ### Contracts:
 1. _TenSETToken_ - Token contract
-2. _DistributionWallet_ - Wallet for unsolded tokens
+2. _DistributionWallet_ - Distribution wallet
 3. _PrivateSalePL_ 
 4. _PrivateSaleGL_ 
 5. _FreezeWallet_ - Freezing period is 30 months. Every 3 months, 10% of frozen tokens is unfrozen and released to the Team’s wallet.
