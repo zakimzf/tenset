@@ -59,10 +59,11 @@ contract StaggedCrowdsale is Context, Ownable {
 
   function insertMilestone(uint8 numberAfter, uint256 start, uint256 end, uint256 bonus, uint256 minInvestedLimit, uint256 maxInvestedLimit, uint256 invested, uint256 tokensSold, uint256 hardcapInTokens) public onlyOwner {
     require(numberAfter < milestones.length);
-    for (uint i = milestones.length - 2; i > numberAfter; i--) {
-      milestones.push(milestones[i]);
-    }
     milestones[numberAfter + 1] = Milestone(start, end, bonus, minInvestedLimit, maxInvestedLimit, invested, tokensSold, hardcapInTokens);
+    for (uint i = milestones.length - 2; i > numberAfter; i--) {
+      milestones[i+1]=milestones[i].push(milestones[i]);
+    }
+    milestones[numberAfter] = Milestone(start, end, bonus, minInvestedLimit, maxInvestedLimit, invested, tokensSold, hardcapInTokens);
   }
 
   function clearMilestones() public onlyOwner {
