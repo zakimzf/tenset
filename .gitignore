@@ -40,6 +40,7 @@ build/
 
 # IntelliJ IDE
 .idea
+*.iml
 
 # docs artifacts
 docs/modules/api
