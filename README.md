@@ -3,13 +3,13 @@
 # 10Set Token smart contract
 
 * _Standart_        : [ERC20](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md)
-* _[Name](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md#name)            : 10Set Token
+* _[Name](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md#name)_            : 10Set Token
 * _[Ticker](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md#symbol)_          : 10SET
 * _[Decimals](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md#decimals)_        : 18
 * _Emission_        : Single, 210 000 000 tokens
 * _Fiat dependency_ : No
 * _Token offers_    : 2
-* _Tokens lock_     : No
+* _Token locks_     : No
 
 ## Smart-contracts description
 
@@ -20,7 +20,7 @@
 2. _DistributionWallet_ - Distribution wallet
 3. _PrivateSalePL_ 
 4. _PrivateSaleGL_ 
-5. _FreezeWallet_ - Freezing period is 30 months. Every 3 months, 10% of frozen tokens is unfrozen and released to the Team’s wallet.
+5. _FreezeWallet_ - A wallet for frozen team tokens. The total freezing period is 30 months. Every 3 months, 10% of the initial amount is unfrozen and transferred to the Team's wallet.
 6. _Configurator_
 
 ### Contracts arch
@@ -30,16 +30,12 @@
 ### Contract features
 
 #### RFI mechanism
-1. 1% fee each transaction distributed proportionally to all token holder
+1. 1% distributed proportionally to all token holder with every transaction
 2. Ability to block some addresses from receiving staking bonus (exchange liquidity pools)
 
 #### Token burning mechanism
-1. 1% fee each transaction will burn
-2. Burning process stops when the total number of tokens reaches 1% (2,100,000)
-
-#### PolkaStarter launching
-1. Token should be ready to launch on Polkastarter for the Private Sale GL on 7 March.
-2. Whatever is needed to be programmed in Smart Contract now, needs to be there, so there are no issues when we decide to launch on Polkastarter.
+1. 1% is burned with every transaction
+2. Burning process stops when the total number of tokens drops to 1% (2,100,000)
 
 ### How to manage contract
 To start working with contract you should follow next steps:
