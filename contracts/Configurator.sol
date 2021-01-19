@@ -5,6 +5,7 @@ import "./TenSetToken.sol";
 import "./RetrieveTokensFeature.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 
+
 contract Configurator is RetrieveTokensFeature {
     using SafeMath for uint256;
     using Address for address;

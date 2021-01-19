@@ -4,6 +4,7 @@ import "./RetrieveTokensFeature.sol";
 import "./StaggedCrowdsale.sol";
 import "./IERC20Cutted.sol";
 
+
 contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
 
     IERC20Cutted public token;
@@ -26,19 +27,19 @@ contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
         isPause = false;
     }
 
-    function setToken(address newTokenAddress) public onlyOwner {
+    function setToken(address newTokenAddress) public onlyOwner() {
         token = IERC20Cutted(newTokenAddress);
     }
 
-    function setPercentRate(uint256 newPercentRate) public onlyOwner {
+    function setPercentRate(uint256 newPercentRate) public onlyOwner() {
         percentRate = newPercentRate;
     }
 
-    function setWallet(address payable newWallet) public onlyOwner {
+    function setWallet(address newWallet) public onlyOwner() {
         wallet = newWallet;
     }
 
-    function setPrice(uint256 newPrice) public onlyOwner {
+    function setPrice(uint256 newPrice) public onlyOwner() {
         price = newPrice;
     }
 
