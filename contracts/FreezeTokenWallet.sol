@@ -1,28 +1,28 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.6.2;
 
-import './ownership/Ownable.sol';
-import './math/SafeMath.sol';
-import './MintableToken.sol';
+import "./RetrieveTokensFeature.sol";
+import "./IERC20Cutted.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
-contract FreezeTokensWallet is Ownable {
+contract FreezeTokensWallet is RetrieveTokensFeature {
 
   using SafeMath for uint256;
 
-  MintableToken public token;
+  IERC20Cutted public token;
 
   bool public started;
 
-  uint public startLockPeriod = 180 days;
+  uint256 public startLockPeriod = 180 days;
 
-  uint public period = 360 days;
+  uint256 public period = 360 days;
 
-  uint public duration = 90 days;
+  uint256 public duration = 90 days;
 
-  uint public startUnlock;
+  uint256 public startUnlock;
 
-  uint public retrievedTokens;
+  uint256 public retrievedTokens;
 
-  uint public startBalance;
+  uint256 public startBalance;
 
   modifier notStarted() {
     require(!started);
@@ -42,7 +42,7 @@ contract FreezeTokensWallet is Ownable {
   }
 
   function setToken(address newToken) public onlyOwner notStarted {
-    token = MintableToken(newToken);
+    token = IERC20Cutted(newToken);
   }
 
   function start() public onlyOwner notStarted {
@@ -69,4 +69,10 @@ contract FreezeTokensWallet is Ownable {
       }
     }
   }
+
+  function retrieveTokens(address to, address anotherToken) public onlyOwner() {
+    require(address(token) != anotherToken, "");
+    super.retrieveTokens(to, anotherToken);
+  }
+
 }
