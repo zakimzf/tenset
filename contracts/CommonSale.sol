@@ -1,8 +1,8 @@
 pragma solidity ^0.6.2;
 
-import "StaggedCrowdsale.sol";
-import "RetrieveTokensFeature.sol";
-import "IERC20Cutted.sol";
+import "./RetrieveTokensFeature.sol";
+import "./StaggedCrowdsale.sol";
+import "./IERC20Cutted.sol";
 
 contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
 
@@ -14,27 +14,27 @@ contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
 
   uint256 public percentRate = 100;
 
-  address public wallet;
+  address payable public wallet;
 
-  boolean public pause = false;
+  bool public isPause = false;
 
-  function pause() public onlyOwner() {
-    pause = true;
+  function pause() public onlyOwner {
+    isPause = true;
   }
 
-  function continue() public onlyOwner() {
-    pause = false;
+  function unpause() public onlyOwner {
+    isPause = false;
   }
 
-  function setToken(address newTokenAddress) public onlyOwner() {
-    token = ERC20Cutted(newTokenAddress);
+  function setToken(address newTokenAddress) public onlyOwner {
+    token = IERC20Cutted(newTokenAddress);
   }
 
-  function setPercentRate(uin256 newPercentRate) public onlyOnwer {
+  function setPercentRate(uint256 newPercentRate) public onlyOwner {
     percentRate = newPercentRate;
   }
 
-  function setWallet(address newWallet) public onlyOwner {
+  function setWallet(address payable newWallet) public onlyOwner {
     wallet = newWallet;
   }
 
@@ -46,55 +46,57 @@ contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
     invested = invested.add(value);
   }
 
-  function fallback() internal returns(uint) {
-    require(!pause, "Contract paused");
+  function internalFallback() internal returns(uint) {
+    require(!isPause, "Contract paused");
 
-    Milestone milestone = milestones[currentMilestone()];
+    uint256 milestoneIndex = currentMilestone();
+    Milestone memory milestone = milestones[milestoneIndex];
 
     require(msg.value >= milestone.minInvestedLimit);
 
     // check max limit in ETH 
-    uint256 limiterdInvestValue = msg.value;
-    if(limitedInvestValue < milestone.maxInvestedValue) {
-      limitedInvestValue = milestone.maxInvestedValue;
-      msg.sender.transfer(limitedInvestValue.sub(milestone.maxInvestValue));
+    uint256 limitedInvestValue = msg.value;
+    if(limitedInvestValue < milestone.maxInvestedLimit) {
+      limitedInvestValue = milestone.maxInvestedLimit;
+      _msgSender().transfer(limitedInvestValue.sub(milestone.maxInvestedLimit));
     }
 
     // calculate tokens
     uint256 tokensWithoutBonus = limitedInvestValue.mul(price).div(1 ether);
+    uint256 tokensWithBonus = tokensWithoutBonus;
     if(milestone.bonus > 0) {
       tokensWithBonus = tokensWithoutBonus.add(tokensWithoutBonus.mul(milestone.bonus).div(percentRate));
     }
 
     // check tokens limit in crowdsale stage
-    tokensSold = milestone.tookensSold.add(tokensWithBonus);
+    uint256 tokensSold = milestone.tokensSold.add(tokensWithBonus);
     if(tokensSold > milestone.hardcapInTokens) {
       tokensWithBonus = tokensWithBonus.sub(tokensSold.sub(milestone.hardcapInTokens));
     }
 
 
     if(milestone.bonus > 0) {
-      tokensWithoutBonus = tokensWithBonus.sub(tokensWithBonus.mul(percentRate).div(milestone.bonus))
+      tokensWithoutBonus = tokensWithBonus.sub(tokensWithBonus.mul(percentRate).div(milestone.bonus));
     }
 
-    limitedInvestedValue = tokensWithoutBonus.mul(1 ether).div(price);
+    limitedInvestValue = tokensWithoutBonus.mul(1 ether).div(price);
 
-    if(msg.value.sub(limitedInvestedValue) > 0) {
-      msg.sender.transfer(msg.value.sub(limitedInvestedValue));
+    if(msg.value.sub(limitedInvestValue) > 0) {
+      _msgSender().transfer(msg.value.sub(limitedInvestValue));
     }
     
     milestone.tokensSold = milestone.tokensSold.add(tokensWithBonus);
 
-    wallet.transfer(limitedInvestedValue);
+    wallet.transfer(limitedInvestValue);
     invested = invested.add(limitedInvestValue);
 
-    token.transfer(_sender(), tokens);
+    token.transfer(_msgSender(), tokensWithBonus);
 
-    return tokens;
+    return tokensWithBonus;
   }
 
-  function () public payable {
-    fallback();
+  receive () external payable {
+    internalFallback();
   }
 
 }

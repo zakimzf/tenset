@@ -1,12 +1,11 @@
 pragma solidity ^0.6.2;
 
-import "@openzeppelin/contracts/GSN/Context.sol";
+import "./RetrieveTokensFeature.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract TenSetToken is Context, IERC20, Ownable {
+contract TenSetToken is IERC20, RetrieveTokensFeature {
     using SafeMath for uint256;
     using Address for address;
 

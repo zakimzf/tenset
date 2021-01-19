@@ -13,8 +13,8 @@ contract StaggedCrowdsale is Context, Ownable {
     uint256 start;
     uint256 end;
     uint256 bonus;
-    uint256 minInesetedLimit;
-    uint256 maxInesetedLimit;
+    uint256 minInvestedLimit;
+    uint256 maxInvestedLimit;
     uint256 invested;
     uint256 tokensSold;
     uint256 hardcapInTokens;
@@ -32,18 +32,18 @@ contract StaggedCrowdsale is Context, Ownable {
 
   function removeMilestone(uint8 number) public onlyOwner {
     require(number < milestones.length);
-    Milestone storage milestone = milestones[number];
+    //Milestone storage milestone = milestones[number];
 
     delete milestones[number];
 
+    // check it
     for (uint i = number; i < milestones.length - 1; i++) {
       milestones[i] = milestones[i+1];
     }
 
-    milestones.length--;
   }
 
-  function changeMilestone(uint8 number, uint256 start, uint256 end256, uint256 bonus, uint256 minInvestedLimit, uint256 maxInvestedLimit, uint256 invested, uint256 tokensSold, uint256 hardcapInTokens) public onlyOwner {
+  function changeMilestone(uint8 number, uint256 start, uint256 end, uint256 bonus, uint256 minInvestedLimit, uint256 maxInvestedLimit, uint256 invested, uint256 tokensSold, uint256 hardcapInTokens) public onlyOwner {
     require(number < milestones.length);
     Milestone storage milestone = milestones[number];
 
@@ -59,9 +59,8 @@ contract StaggedCrowdsale is Context, Ownable {
 
   function insertMilestone(uint8 numberAfter, uint256 start, uint256 end, uint256 bonus, uint256 minInvestedLimit, uint256 maxInvestedLimit, uint256 invested, uint256 tokensSold, uint256 hardcapInTokens) public onlyOwner {
     require(numberAfter < milestones.length);
-    milestones.length++;
     for (uint i = milestones.length - 2; i > numberAfter; i--) {
-      milestones[i + 1] = milestones[i];
+      milestones.push(milestones[i]);
     }
     milestones[numberAfter + 1] = Milestone(start, end, bonus, minInvestedLimit, maxInvestedLimit, invested, tokensSold, hardcapInTokens);
   }
@@ -71,12 +70,11 @@ contract StaggedCrowdsale is Context, Ownable {
     for (uint i = 0; i < milestones.length; i++) {
       delete milestones[i];
     }
-    milestones.length -= milestones.length;
   }
 
-  function currentMilestone(uint start) public view returns(uint) {
-    for(uint i=0; i < milestones.length; i++) {
-      if(now >= milestones[i].start && now < milestones[i].end && milestones[i].tokensSold <= milestones[i].hardcapInTokens[i]) {
+  function currentMilestone() public view returns(uint256) {
+    for(uint256 i=0; i < milestones.length; i++) {
+      if(now >= milestones[i].start && now < milestones[i].end && milestones[i].tokensSold <= milestones[i].hardcapInTokens) {
         return i;
       }
     }
