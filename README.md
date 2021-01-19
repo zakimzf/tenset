@@ -60,28 +60,36 @@ EXODUS not support ERC20, but have way to export key into MyEtherWallet - http:/
 1. Company Reserve + marketing (15%): 31,500,000 
 2. Liquid Reserve (5%)              : 10,500,000
 3. Team (10%)                       : 21,500,000
-5. Private sale PL 5.234%           : 11,000,000
-6. Private sale GL 25%              : 52,500,000
+5. Sales stages                     : 143,500,000
 
 ### Sale stages
 
-#### Private sale PL
+common price: 1 ETH = 10000 10SET
+
+#### Stage 1
 * Minimum purchase volume           : 0.1 ETH
 * Maximum purchase volume           : 40ETH
-* Price                             : 1 ETH = 10.000 10SET
 * Bonus                             : 10%
 * HardCap                           : 11,000,000 10SET
 * Start date                        : 31/01/2021 (7pm GMT+1 time)
 * End date                          : 07/02/2021 (7pm GMT+1 time)
 
-#### Private sale GL
+#### Stage 2
 * Minimum purchase volume           : 0.1 ETH
 * Maximum purchase volume           : 100 ETH
-* Price                             : 1 ETH = 10.000 10SET
 * Bonus                             : 5%
 * HardCap                           : 52,500,000 10SET
 * Start date                        : 07/03/2021 (7pm GMT+1 time)
 * End date                          : 14/03/2021 (7pm GMT+1 time)
+
+#### Stage 3
+* Minimum purchase volume           : 0 ETH
+* Maximum purchase volume           : 9999999999999999999999 ETH
+* Bonus                             : 0%
+* HardCap                           : 80,000,000 10SET
+* Start date                        : 14/03/2021 (7pm GMT+1 time)
+* End date                          : 14/03/9999 (7pm GMT+1 time)
+
 
 ### Links 
 1. _TenSETToken_ contract         :

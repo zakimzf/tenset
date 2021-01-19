@@ -10,58 +10,42 @@ contract CommonSale is Context, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
-  TokenWallet public tokenWallet;
+  uint256 private constant MAX = ~uint256(0);
 
   TenSetToken public token;
 
   FreezeWallet public freezeWallet;
  
-  CommonSale public priavateSalePL;
-
-  CommonSale public priavateSaleGL;
+  CommonSale public commonSale;
 
   address public targetOwner = TODO;
 
+  // constructor
   public init() {
     // create token contract
     token = new TenSetToken();
 
     // create token wallet
-    tokenWallet = new TokenWallet();
-
-    // create token wallet
     // freezeWallet = new FreezeWallet();
     // freezeWallet.setStart(..);
+    // tokens.transfer(freezeWallet, amount);
 
-    // TODO: distribute tokens
-    // to te
-    
-    privateSalePL = new CommonSale();
-    privateSalePL.setStart(...);
-    privateSalePL.setEnd(...);
-    privateSalePL.setBonus(...);
-    privateSalePL.setHardacap(...);
-    privateSalePL.setPrice(...);
-    privateSalePL.setTokenWallet(address(tokenWallet));
+    uint256 stage1Tokens =   11 * 10**6 * 10**18;
+    uint256 stage2Tokens =  525 * 10**5 * 10**18;
+    uint256 stage3Tokens =   80 * 10**6 * 10**18;
 
-    privateSaleGP = new CommonSale();
-    privateSaleGP.setStart(...);
-    privateSaleGP.setEnd(...);
-    privateSaleGP.setBonus(...);
-    privateSaleGP.setHardacap(...);
-    privateSaleGP.setPrice(...);
-    privateSaleGP.setTokenWallet(address(tokenWallet));
+    uint256 stageSumTokens = stage1Tokens + stage2Tokens + stage3Tokens;
 
-
-    tokenWallet.allowAddress(address(privateSalePL));
-    tokenWallet.allowAddress(address(privateSaleGL));
-
+    commonSale = new CommonSale();
+    commonSale.addMilstone(1,   2, 10, 1 * 10**17,  40 * ether, 0, 0,  stage1Tokens);
+    commonSale.addMilstone(3,   4,  5, 1 * 10**17, 100 * ether, 0, 0,  stage2Tokens);
+    commonSale.addMilstone(5, MAX,  0,          0,         MAX, 0, 0,  stage3Tokens);
+     
+    token.transfer(stageSumTokens);
 
     token.transferOwnership(targetOwner);
-    tokenWallet.transferOwnership(targetOwner);
     freezeWallet.transferOwnership(targetOwner);
-    privateSalePL.transferOwnership(targetOwner);
-    privateSaleGL.transferOwnership(targetOwner);
+    commonSale.transferOwnership(targetOwner);
   }
 
 }
