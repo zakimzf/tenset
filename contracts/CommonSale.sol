@@ -23,7 +23,7 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
 
     mapping(address => bool) public whitelist;
 
-    mapping(address => uint256) public whitelistBalances;
+    mapping(uint256 => mapping(address => uint256)) public whitelistBalances;
 
     mapping(uint256 => bool) public whitelistedMilestones;
 

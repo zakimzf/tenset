@@ -18,7 +18,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     address[] private _excluded;
 
     uint256 private constant MAX = ~uint256(0);
-    uint256 private constant _tTotal = 210000000 * 10 ** 18;
+    uint256 private _tTotal = 0;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
@@ -26,9 +26,13 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     string private _symbol = "10SET";
     uint8 private _decimals = 18;
 
-    constructor () public {
-        _rOwned[_msgSender()] = _rTotal;
-        emit Transfer(address(0), _msgSender(), _tTotal);
+    constructor (address[] memory addresses, uint256[] memory amounts) public {
+        _tTotal = 0;
+        for(uint8 i=0; i<addresses.length; i++) {
+          _rOwned[addresses[i]] = _rTotal;
+          emit Transfer(address(0), addresses[i], amounts[i]);
+          _tTotal.add(amounts[i]);
+        }
     }
 
     function excludeAccount(address account) external onlyOwner() {
