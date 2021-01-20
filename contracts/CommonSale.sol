@@ -72,7 +72,7 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         require(!isPause, "Contract paused");
 
         uint256 milestoneIndex = currentMilestone();
-        Milestone memory milestone = milestones[milestoneIndex];
+        Milestone storage milestone = milestones[milestoneIndex];
         uint256 limitedInvestValue = msg.value;
 
         // limit the minimum amount for one transaction (ETH) 
@@ -114,7 +114,9 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         }
         
         wallet.transfer(tokenBasedLimitedInvestValue);
-        token.transfer(_msgSender(), tokensWithBonus);
+        
+        // we multiply the amount to send by 100 / 98 to compensate the buyer 2% fee charged on each transaction
+        token.transfer(_msgSender(), tokensWithBonus * 100 / 98);
         
         if (change > 0) {
             _msgSender().transfer(change);
