@@ -1,11 +1,11 @@
 pragma solidity ^0.6.2;
 
 import "./RetrieveTokensFeature.sol";
-import "./StaggedCrowdsale.sol";
+import "./StagedCrowdsale.sol";
 import "./IERC20Cutted.sol";
 
 
-contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
+contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
 
     IERC20Cutted public token;
 
