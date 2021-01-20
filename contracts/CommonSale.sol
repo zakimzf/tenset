@@ -19,6 +19,32 @@ contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
 
     bool public isPause = false;
 
+    uint256 public commonPurchaseLimit;
+
+    mapping(address => bool) public whitelist;
+
+    mapping(address => uint256) public whitelistBalances;
+
+    mapping(uint256 => bool) public whitelistedMilestones;
+
+    function setMilestoneWithWhitelist(uint256 index) public onlyOwner {
+       whitelistedMilestones[index] = true;
+    }
+
+    function unsetMilestoneWithWhitelist(uint256 index) public onlyOwner {
+       whitelistedMilestones[index] = false;
+    }
+
+    function setCommonPurchaseLimit(uint256 newCommonPurchaseLimit) public onlyOwner {
+        commonPurchaseLimit = newCommonPurchaseLimit;
+    }
+
+    function addToWhiteList(address target) public onlyOwner {
+      require(!whitelist[target], "Already in whitelist");
+      whitelist[target] = true;
+      whitelistBalances[target] = commonPurchaseLimit;
+    }
+
     function pause() public onlyOwner {
         isPause = true;
     }
@@ -35,7 +61,7 @@ contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
         percentRate = newPercentRate;
     }
 
-    function setWallet(address newWallet) public onlyOwner() {
+    function setWallet(address payable newWallet) public onlyOwner() {
         wallet = newWallet;
     }
 
@@ -51,15 +77,25 @@ contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
         require(!isPause, "Contract paused");
 
         uint256 milestoneIndex = currentMilestone();
+
         Milestone memory milestone = milestones[milestoneIndex];
+        uint256 limitedInvestValue = msg.value;
+        uint256 change = 0;
+        if(whitelistedMilestones[milestoneIndex]) {
+          require(whitelist[_msgSender()], "Address should be in whitelist!");
+          require(whitelistBalances[_msgSender()] > 0, "Whitelist balance exceeded!");
+          if(limitedInvestValue > whitelistBalances[_msgSender()]) {
+            change = limitedInvestValue.sub(whitelistBalances[_msgSender()]);
+            limitedInvestValue = whitelistBalances[_msgSender()];
+          }    
+        }
 
         require(msg.value >= milestone.minInvestedLimit);
 
         // check max limit in ETH 
-        uint256 limitedInvestValue = msg.value;
-        if (limitedInvestValue < milestone.maxInvestedLimit) {
+        if (limitedInvestValue > milestone.maxInvestedLimit) {
+            change = change.add(limitedInvestValue.sub(milestone.maxInvestedLimit));
             limitedInvestValue = milestone.maxInvestedLimit;
-            _msgSender().transfer(limitedInvestValue.sub(milestone.maxInvestedLimit));
         }
 
         // calculate tokens
@@ -80,18 +116,22 @@ contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
             tokensWithoutBonus = tokensWithBonus.sub(tokensWithBonus.mul(percentRate).div(milestone.bonus));
         }
 
-        limitedInvestValue = tokensWithoutBonus.mul(1 ether).div(price);
-
-        if (msg.value.sub(limitedInvestValue) > 0) {
-            _msgSender().transfer(msg.value.sub(limitedInvestValue));
-        }
+        uint256 tokenBasedLimitedInvestValue = tokensWithoutBonus.mul(1 ether).div(price);
+        change = change.add(limitedInvestValue.sub(tokenBasedLimitedInvestValue));
 
         milestone.tokensSold = milestone.tokensSold.add(tokensWithBonus);
 
-        wallet.transfer(limitedInvestValue);
-        invested = invested.add(limitedInvestValue);
+        wallet.transfer(tokenBasedLimitedInvestValue);
+        invested = invested.add(tokenBasedLimitedInvestValue);
 
         token.transfer(_msgSender(), tokensWithBonus);
+        if (change > 0) {
+            _msgSender().transfer(change);
+        }
+
+        if(whitelistedMilestones[milestoneIndex]) {
+          whitelistBalances[_msgSender()] = whitelistBalances[_msgSender()].sub(tokenBasedLimitedInvestValue);
+        }
 
         return tokensWithBonus;
     }

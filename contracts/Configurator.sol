@@ -29,6 +29,10 @@ contract Configurator is RetrieveTokensFeature {
         // freezeWallet.setStart(..);
         // tokens.transfer(freezeWallet, amount);
 
+        uint256 stage1Price =  40 * 1 ether;
+        uint256 stage2Price = 100 * 1 ether;
+        uint256 stage3Price = 0;
+
         uint256 stage1Tokens = 11 * 10 ** 6 * 1 ether;
         uint256 stage2Tokens = 525 * 10 ** 5 * 1 ether;
         uint256 stage3Tokens = 80 * 10 ** 6 * 1 ether;
@@ -36,9 +40,13 @@ contract Configurator is RetrieveTokensFeature {
         uint256 stageSumTokens = stage1Tokens.add(stage2Tokens).add(stage3Tokens);
 
         commonSale = new CommonSale();
-        commonSale.addMilestone(1, 2, 10, 1 * 10 ** 17, 40 * 1 ether, 0, 0, stage1Tokens);
-        commonSale.addMilestone(3, 4, 5, 1 * 10 ** 17, 100 * 1 ether, 0, 0, stage2Tokens);
-        commonSale.addMilestone(5, MAX, 0, 0, MAX, 0, 0, stage3Tokens);
+        commonSale.setToken(address(token));
+        commonSale.setCommonPurchaseLimit(stage1Price.add(stage2Price));
+        commonSale.addMilestone(1,   2, 10, 1 * 10 ** 17, stage1Price, 0, 0, stage1Tokens);
+        commonSale.setMilestoneWithWhitelist(0);
+        commonSale.addMilestone(3,   4,  5, 1 * 10 ** 17, stage2Price, 0, 0, stage2Tokens);
+        commonSale.setMilestoneWithWhitelist(1);
+        commonSale.addMilestone(5, MAX,  0,            0, stage3Price, 0, 0, stage3Tokens);
 
         token.transfer(address(commonSale), stageSumTokens);
 

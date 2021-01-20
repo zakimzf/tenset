@@ -48,14 +48,14 @@ contract FreezeTokensWallet is RetrieveTokensFeature {
   function start() public onlyOwner notStarted {
     startUnlock = now + startLockPeriod;
     retrievedTokens = 0;
-    startBalance = token.balanceOf(this);
+    startBalance = token.balanceOf(address(this));
     started = true;
   }
 
-  function retrieveTokens(address to) public onlyOwner {
+  function retrieveWalletTokens(address to) public onlyOwner {
     require(started && now >= startUnlock);
     if (now >= startUnlock + period) {
-      token.transfer(to, token.balanceOf(this));
+      token.transfer(to, token.balanceOf(address(this)));
     } else {
       uint parts = period.div(duration);
       uint tokensByPart = startBalance.div(parts);
@@ -70,7 +70,7 @@ contract FreezeTokensWallet is RetrieveTokensFeature {
     }
   }
 
-  function retrieveTokens(address to, address anotherToken) public onlyOwner() {
+  function retrieveTokens(address to, address anotherToken) override public onlyOwner() {
     require(address(token) != anotherToken, "");
     super.retrieveTokens(to, anotherToken);
   }
