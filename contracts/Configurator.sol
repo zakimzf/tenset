@@ -2,6 +2,7 @@ pragma solidity ^0.6.2;
 
 import "./CommonSale.sol";
 import "./TenSetToken.sol";
+import "./FreezeTokenWallet.sol";
 import "./RetrieveTokensFeature.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 
@@ -14,20 +15,48 @@ contract Configurator is RetrieveTokensFeature {
 
     TenSetToken public token;
 
-    //  FreezeWallet public freezeWallet;
+    FreezeTokenWallet public freezeWallet;
 
     CommonSale public commonSale;
 
     address public targetOwner = address(0x0);
 
-    constructor () public {
-        // create token contract
-        token = new TenSetToken();
+    address[] public addresses;
 
-        // create token wallet
-        // freezeWallet = new FreezeWallet();
-        // freezeWallet.setStart(..);
-        // tokens.transfer(freezeWallet, amount);
+    uint256[] public amounts;
+
+    constructor () public {
+        // create instances
+        freezeWallet = new FreezeTokenWallet();
+        commonSale = new CommonSale();
+
+        commonSale.setToken(address(token));
+        freezeWallet.setToken(address(token));
+
+       
+        uint256 totalInit                 =  210000000 * 1 ether;
+
+        uint256 walletAmountTeams         =  21000000 * 1 ether;
+        uint256 walletAmunttCompanyReserv =  21000000 * 1 ether + 10500000 * 1 ether;
+        uint256 walletAmountLiquidReserv  =  10500000 * 1 ether;
+        uint256 walletAmountSale          =  totalInit.sub(walletAmountTeams.add(walletAmunttCompanyReserv).add(walletAmountLiquidReserv)).mul(100).div(98); 
+
+
+        addresses.push(address(freezeWallet));
+        amounts.push(walletAmountTeams);
+
+        addresses.push(address(commonSale));
+        amounts.push(walletAmountSale);
+
+        // TOD0: get walletAmunttCompanyReserv address
+        addresses.push(address(0x0));
+        amounts.push(walletAmunttCompanyReserv);
+
+        // TOD0: get walletAmuntCompanyReserv address
+        addresses.push(address(0x0));
+        amounts.push(walletAmountLiquidReserv);
+
+        token = new TenSetToken(addresses, amounts);
 
         uint256 stage1Price =  40 * 1 ether;
         uint256 stage2Price = 100 * 1 ether;
@@ -40,7 +69,6 @@ contract Configurator is RetrieveTokensFeature {
         uint256 stageSumTokens = stage1Tokens.add(stage2Tokens).add(stage3Tokens);
 
         commonSale = new CommonSale();
-        commonSale.setToken(address(token));
         commonSale.setCommonPurchaseLimit(stage1Price.add(stage2Price));
         commonSale.addMilestone(1,   2, 10, 1 * 10 ** 17, stage1Price, 0, 0, stage1Tokens);
         commonSale.setMilestoneWithWhitelist(0);
@@ -51,7 +79,8 @@ contract Configurator is RetrieveTokensFeature {
         token.transfer(address(commonSale), stageSumTokens);
 
         token.transferOwnership(targetOwner);
-        //freezeWallet.transferOwnership(targetOwner);
+        freezeWallet.start();
+        freezeWallet.transferOwnership(targetOwner);
         commonSale.transferOwnership(targetOwner);
     }
 

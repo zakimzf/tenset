@@ -4,7 +4,7 @@ import "./RetrieveTokensFeature.sol";
 import "./IERC20Cutted.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 
-contract FreezeTokensWallet is RetrieveTokensFeature {
+contract FreezeTokenWallet is RetrieveTokensFeature {
 
   using SafeMath for uint256;
 
@@ -12,9 +12,9 @@ contract FreezeTokensWallet is RetrieveTokensFeature {
 
   bool public started;
 
-  uint256 public startLockPeriod = 180 days;
+  uint256 public startLockPeriod = 0 days;
 
-  uint256 public period = 360 days;
+  uint256 public period = 30 * 30 * 1 days;
 
   uint256 public duration = 90 days;
 
