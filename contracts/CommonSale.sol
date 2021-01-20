@@ -114,7 +114,9 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         }
         
         wallet.transfer(tokenBasedLimitedInvestValue);
-        token.transfer(_msgSender(), tokensWithBonus);
+        
+        // we multiply the amount to send by 100 / 98 to compensate the buyer 2% fee charged on each transaction
+        token.transfer(_msgSender(), tokensWithBonus * 100 / 98);
         
         if (change > 0) {
             _msgSender().transfer(change);
