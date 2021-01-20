@@ -35,7 +35,7 @@ contract CommonSale is StaggedCrowdsale, RetrieveTokensFeature {
         percentRate = newPercentRate;
     }
 
-    function setWallet(address newWallet) public onlyOwner() {
+    function setWallet(address payable newWallet) public onlyOwner() {
         wallet = newWallet;
     }
 
