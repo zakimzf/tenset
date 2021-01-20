@@ -28,11 +28,11 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
     mapping(uint256 => bool) public whitelistedMilestones;
 
     function setMilestoneWithWhitelist(uint256 index) public onlyOwner {
-       whitelistedMilestones[index] = true;
+        whitelistedMilestones[index] = true;
     }
 
     function unsetMilestoneWithWhitelist(uint256 index) public onlyOwner {
-       whitelistedMilestones[index] = false;
+        whitelistedMilestones[index] = false;
     }
 
     function setCommonPurchaseLimit(uint256 newCommonPurchaseLimit) public onlyOwner {
@@ -40,9 +40,9 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
     }
 
     function addToWhiteList(address target) public onlyOwner {
-      require(!whitelist[target], "Already in whitelist");
-      whitelist[target] = true;
-      whitelistBalances[target] = commonPurchaseLimit;
+        require(!whitelist[target], "Already in whitelist");
+        whitelist[target] = true;
+        whitelistBalances[target] = commonPurchaseLimit;
     }
 
     function pause() public onlyOwner {
@@ -77,17 +77,18 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         require(!isPause, "Contract paused");
 
         uint256 milestoneIndex = currentMilestone();
-
         Milestone memory milestone = milestones[milestoneIndex];
         uint256 limitedInvestValue = msg.value;
         uint256 change = 0;
-        if(whitelistedMilestones[milestoneIndex]) {
-          require(whitelist[_msgSender()], "Address should be in whitelist!");
-          require(whitelistBalances[_msgSender()] > 0, "Whitelist balance exceeded!");
-          if(limitedInvestValue > whitelistBalances[_msgSender()]) {
-            change = limitedInvestValue.sub(whitelistBalances[_msgSender()]);
-            limitedInvestValue = whitelistBalances[_msgSender()];
-          }    
+
+        // limit the maximum amount that one user can spend during the current milestone (ETH) 
+        if (whitelistedMilestones[milestoneIndex]) {
+            require(whitelist[_msgSender()], "Address should be in whitelist!");
+            require(whitelistBalances[_msgSender()] > 0, "Whitelist balance exceeded!");
+            if (limitedInvestValue > whitelistBalances[_msgSender()]) {
+                change = limitedInvestValue.sub(whitelistBalances[_msgSender()]);
+                limitedInvestValue = whitelistBalances[_msgSender()];
+            }
         }
 
         require(msg.value >= milestone.minInvestedLimit);
@@ -129,8 +130,8 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
             _msgSender().transfer(change);
         }
 
-        if(whitelistedMilestones[milestoneIndex]) {
-          whitelistBalances[_msgSender()] = whitelistBalances[_msgSender()].sub(tokenBasedLimitedInvestValue);
+        if (whitelistedMilestones[milestoneIndex]) {
+            whitelistBalances[_msgSender()] = whitelistBalances[_msgSender()].sub(tokenBasedLimitedInvestValue);
         }
 
         return tokensWithBonus;
