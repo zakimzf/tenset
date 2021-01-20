@@ -72,7 +72,7 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         require(!isPause, "Contract paused");
 
         uint256 milestoneIndex = currentMilestone();
-        Milestone memory milestone = milestones[milestoneIndex];
+        Milestone storage milestone = milestones[milestoneIndex];
         uint256 limitedInvestValue = msg.value;
 
         // limit the minimum amount for one transaction (ETH) 
