@@ -108,6 +108,16 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         return true;
     }
 
+    function burn(uint256 amount) public {
+        _burn(_msgSender(), amount);
+    }
+
+    function burnFrom(address account, uint256 amount) public {
+        uint256 decreasedAllowance = allowance(account, _msgSender()).sub(amount, "ERC20: burn amount exceeds allowance");
+        _approve(account, _msgSender(), decreasedAllowance);
+        _burn(account, amount);
+    }
+
     function isExcluded(address account) public view returns (bool) {
         return _isExcluded[account];
     }
@@ -243,6 +253,20 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         }
         if (rSupply < _rTotal.div(_tTotal)) return (_rTotal, _tTotal);
         return (rSupply, tSupply);
+    }
+
+    function _burn(address account, uint256 tAmount) private {
+        require(account != address(0), "ERC20: burn from the zero address");
+        (uint256 rAmount, , , ,) = _getValues(tAmount);
+        if (_isExcluded[account]) {
+            _tOwned[account] = _tOwned[account].sub(tAmount, "ERC20: burn amount exceeds balance");
+            _rOwned[account] = _rOwned[account].sub(rAmount, "ERC20: burn amount exceeds balance"); 
+        } else {
+            _rOwned[account] = _rOwned[account].sub(rAmount, "ERC20: burn amount exceeds balance");
+        }
+        _tTotal = _tTotal.sub(tAmount);
+        _rTotal = _rTotal.sub(rAmount);
+        emit Transfer(account, address(0), tAmount);
     }
 }
 
