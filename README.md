@@ -65,24 +65,24 @@ common price: 1 ETH = 10000 10SET
 * Maximum purchase volume           : 40ETH
 * Bonus                             : 10%
 * HardCap                           : 11,000,000 10SET
-* Start date                        : 31/01/2021 (7pm GMT+1 time) (1612072800)
-* End date                          : 07/02/2021 (7pm GMT+1 time) (1612677600)
+* Start date                        : 31/01/2021 (7pm GMT+1 time) (ethereum timestamp: 1612072800)
+* End date                          : 07/02/2021 (7pm GMT+1 time) (ethereum timestamp: 1612677600)
 
 #### Stage 2
 * Minimum purchase volume           : 0.1 ETH
 * Maximum purchase volume           : 100 ETH
 * Bonus                             : 5%
 * HardCap                           : 52,500,000 10SET
-* Start date                        : 07/03/2021 (7pm GMT+1 time) (1612677600)
-* End date                          : 14/03/2021 (7pm GMT+1 time) (1613282400)
+* Start date                        : 07/03/2021 (7pm GMT+1 time) (ethereum timestamp: 1612677600)
+* End date                          : 14/03/2021 (7pm GMT+1 time) (ethereum timestamp: 1613282400)
 
 #### Stage 3
 * Minimum purchase volume           : 0 ETH
 * Maximum purchase volume           : 9999999999999999999999 ETH
 * Bonus                             : 0%
 * HardCap                           : 80,000,000 10SET
-* Start date                        : 14/03/2021 (7pm GMT+1 time) (1613282400)
-* End date                          : 14/03/9999 (7pm GMT+1 time) (253374588000)
+* Start date                        : 14/03/2021 (7pm GMT+1 time) (ethereum timestamp: 1613282400)
+* End date                          : 14/03/9999 (7pm GMT+1 time) (ethereum timestamp: 253374588000)
 
 
 ### Links 
