@@ -18,8 +18,8 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     address[] private _excluded;
 
     uint256 private constant MAX = ~uint256(0);
-    uint256 private _tInitialTotal = 0;
-    uint256 private _tTotal = 0;
+    uint256 private constant INITIAL_SUPPLY = 210000000 * 10 ** 18;
+    uint256 private _tTotal = INITIAL_SUPPLY;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
@@ -28,12 +28,17 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     uint8 private _decimals = 18;
 
     constructor (address[] memory addresses, uint256[] memory amounts) public {
-        _tTotal = 0;
-        for(uint8 i=0; i<addresses.length; i++) {
-          _rOwned[addresses[i]] = _rTotal;
-          emit Transfer(address(0), addresses[i], amounts[i]);
-          _tTotal.add(amounts[i]);
+        uint256 rDistributed = 0;
+        for(uint8 i = 0; i < addresses.length - 1; i++) {
+            (uint256 rAmount, , , , , , ) = _getValues(amounts[i]);
+            _rOwned[addresses[i]] = rAmount;
+            rDistributed = rDistributed + rAmount;
+            emit Transfer(address(0), addresses[i], amounts[i]);
         }
+        uint256 rRemainder = _rTotal - rDistributed;
+        address liQuidityWalletAddress = addresses[addresses.length - 1];
+        _rOwned[liQuidityWalletAddress] = rRemainder;
+        emit Transfer(address(0), liQuidityWalletAddress, tokenFromReflection(rRemainder));
     }
 
     function excludeAccount(address account) external onlyOwner() {
@@ -245,7 +250,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         uint256 tFee = tAmount.div(100);
         uint256 tTransferAmount = tAmount.sub(tFee);
         uint256 tBurn = 0;
-        if (_tTotal > _tInitialTotal / 100) {
+        if (_tTotal > INITIAL_SUPPLY / 100) {
             tBurn = tAmount.div(100);
             tTransferAmount = tTransferAmount.sub(tBurn);
         }
