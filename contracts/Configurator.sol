@@ -14,74 +14,77 @@ contract Configurator is RetrieveTokensFeature {
     uint256 private constant MAX = ~uint256(0);
 
     TenSetToken public token;
-
     FreezeTokenWallet public freezeWallet;
-
     CommonSale public commonSale;
-
-    address public targetOwner = address(0x0);
-
-    address[] public addresses;
-
-    uint256[] public amounts;
 
     constructor () public {
         // create instances
         freezeWallet = new FreezeTokenWallet();
         commonSale = new CommonSale();
 
-        commonSale.setToken(address(token));
-        freezeWallet.setToken(address(token));
+        uint256 COMPANY_RESERVE_AMOUNT    = 31500000 * 1 ether;
+        uint256 TEAM_AMOUNT               = 21500000 * 1 ether;
+        uint256 SALE_AMOUNT               = (143500000 * 1 ether).mul(100).div(98);
 
-       
-        uint256 totalInit                 =  210000000 * 1 ether;
+        address OWNER_ADDRESS             = address(0x0);
+        address COMPANY_RESERVE_ADDRESS   = address(0x0);
+        address LIQUIDITY_WALLET_ADDRESS  = address(0x0);
+        address ETH_WALLET_ADDRESS        = address(0x0);
 
-        uint256 walletAmountTeams         =  21000000 * 1 ether;
-        uint256 walletAmunttCompanyReserv =  21000000 * 1 ether + 10500000 * 1 ether;
-        uint256 walletAmountLiquidReserv  =  10500000 * 1 ether;
-        uint256 walletAmountSale          =  totalInit.sub(walletAmountTeams.add(walletAmunttCompanyReserv).add(walletAmountLiquidReserv)).mul(100).div(98); 
-
+        address[] memory addresses;
+        uint256[] memory amounts;
 
         addresses.push(address(freezeWallet));
-        amounts.push(walletAmountTeams);
-
+        amounts.push(TEAM_AMOUNT);
         addresses.push(address(commonSale));
-        amounts.push(walletAmountSale);
-
-        // TOD0: get walletAmunttCompanyReserv address
-        addresses.push(address(0x0));
-        amounts.push(walletAmunttCompanyReserv);
-
-        // TOD0: get walletAmuntCompanyReserv address
-        addresses.push(address(0x0));
-        amounts.push(walletAmountLiquidReserv);
+        amounts.push(SALE_AMOUNT);
+        addresses.push(COMPANY_RESERVE_ADDRESS);
+        amounts.push(COMPANY_RESERVE_AMOUNT);
+        addresses.push(LIQUIDITY_WALLET_ADDRESS);
+        amounts.push(0); // will receive the remaining tokens
 
         token = new TenSetToken(addresses, amounts);
 
-        uint256 stage1Price =  40 * 1 ether;
-        uint256 stage2Price = 100 * 1 ether;
-        uint256 stage3Price = 0;
+        commonSale.setToken(address(token));
+        freezeWallet.setToken(address(token));
 
-        uint256 stage1Tokens = 11 * 10 ** 6 * 1 ether;
-        uint256 stage2Tokens = 525 * 10 ** 5 * 1 ether;
-        uint256 stage3Tokens = 80 * 10 ** 6 * 1 ether;
+        uint256 PRICE                   = 10000;            // 1 ETH = 10000 10SET
+        
+        uint256 STAGE1_START_DATE       = 1612072800;       // Jan 31 2021 07:00:00 GMT+0100
+        uint256 STAGE1_END_DATE         = 1612677600;       // Feb 07 2021 07:00:00 GMT+0100
+        uint256 STAGE1_BONUS            = 10;
+        uint256 STAGE1_MIN_INVESTMENT   = 1 * 10 ** 17;     // 0.1 ETH
+        uint256 STAGE1_MAX_INVESTMENT   = 40 * 1 ether;     // 40 ETH
+        uint256 STAGE1_TOKEN_HARDCAP    = 11000000 * 1 ether;
 
-        uint256 stageSumTokens = stage1Tokens.add(stage2Tokens).add(stage3Tokens);
+        uint256 STAGE2_START_DATE       = 1612677600;       // Feb 07 2021 07:00:00 GMT+0100
+        uint256 STAGE2_END_DATE         = 1613282400;       // Feb 14 2021 07:00:00 GMT+0100 
+        uint256 STAGE2_BONUS            = 5;
+        uint256 STAGE2_MIN_INVESTMENT   = 0.1 * 1 ether;    // 0.1 ETH
+        uint256 STAGE2_MAX_INVESTMENT   = 100 * 1 ether;    // 100 ETH
+        uint256 STAGE2_TOKEN_HARDCAP    = 52500000 * 1 ether;
+
+        uint256 STAGE3_START_DATE       = 1613282400;       // Feb 14 2021 07:00:00 GMT+0100 
+        uint256 STAGE3_END_DATE         = 253374588000;     // Feb 14 9999 07:00:00 GMT+0100 
+        uint256 STAGE3_BONUS            = 0;
+        uint256 STAGE3_MIN_INVESTMENT   = 0;                // 0 ETH
+        uint256 STAGE3_MAX_INVESTMENT   = MAX;
+        uint256 STAGE3_TOKEN_HARDCAP    = 80000000 * 1 ether;
 
         commonSale = new CommonSale();
-        commonSale.setCommonPurchaseLimit(stage1Price.add(stage2Price));
-        commonSale.addMilestone(1,   2, 10, 1 * 10 ** 17, stage1Price, 0, 0, stage1Tokens);
+        commonSale.setPrice(PRICE);
+        commonSale.setWallet(ETH_WALLET_ADDRESS);
+        commonSale.addMilestone(STAGE1_START_DATE, STAGE1_END_DATE, STAGE1_BONUS, STAGE1_MIN_INVESTMENT, STAGE1_MAX_INVESTMENT, 0, 0, STAGE1_TOKEN_HARDCAP);
         commonSale.setMilestoneWithWhitelist(0);
-        commonSale.addMilestone(3,   4,  5, 1 * 10 ** 17, stage2Price, 0, 0, stage2Tokens);
+        commonSale.addMilestone(STAGE2_START_DATE, STAGE2_END_DATE, STAGE2_BONUS, STAGE2_MIN_INVESTMENT, STAGE2_MAX_INVESTMENT, 0, 0, STAGE2_TOKEN_HARDCAP);
         commonSale.setMilestoneWithWhitelist(1);
-        commonSale.addMilestone(5, MAX,  0,            0, stage3Price, 0, 0, stage3Tokens);
+        commonSale.addMilestone(STAGE3_START_DATE, STAGE3_END_DATE, STAGE3_BONUS, STAGE3_MIN_INVESTMENT, STAGE3_MAX_INVESTMENT, 0, 0, STAGE3_TOKEN_HARDCAP);
 
-        token.transfer(address(commonSale), stageSumTokens);
-
-        token.transferOwnership(targetOwner);
         freezeWallet.start();
-        freezeWallet.transferOwnership(targetOwner);
-        commonSale.transferOwnership(targetOwner);
+        
+        token.transferOwnership(OWNER_ADDRESS);
+        freezeWallet.transferOwnership(OWNER_ADDRESS);
+        commonSale.transferOwnership(OWNER_ADDRESS);
     }
 
 }

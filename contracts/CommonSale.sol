@@ -13,7 +13,6 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
     uint256 public percentRate = 100;
     address payable public wallet;
     bool public isPause = false;
-    uint256 public commonPurchaseLimit;
     mapping(address => bool) public whitelist;
 
     mapping(uint256 => mapping(address => uint256)) public whitelistBalances;
@@ -26,10 +25,6 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
 
     function unsetMilestoneWithWhitelist(uint256 index) public onlyOwner {
         whitelistedMilestones[index] = false;
-    }
-
-    function setCommonPurchaseLimit(uint256 newCommonPurchaseLimit) public onlyOwner {
-        commonPurchaseLimit = newCommonPurchaseLimit;
     }
 
     function addToWhiteList(address target) public onlyOwner {
@@ -116,7 +111,7 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         wallet.transfer(tokenBasedLimitedInvestValue);
         
         // we multiply the amount to send by 100 / 98 to compensate the buyer 2% fee charged on each transaction
-        token.transfer(_msgSender(), tokensWithBonus * 100 / 98);
+        token.transfer(_msgSender(), tokensWithBonus.mul(100).div(98));
         
         if (change > 0) {
             _msgSender().transfer(change);
