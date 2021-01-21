@@ -18,6 +18,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     address[] private _excluded;
 
     uint256 private constant MAX = ~uint256(0);
+    uint256 private _tInitialTotal = 0;
     uint256 private _tTotal = 0;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
@@ -109,13 +110,17 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     }
 
     function burn(uint256 amount) public {
-        _burn(_msgSender(), amount);
+        require(_msgSender() != address(0), "ERC20: burn from the zero address");
+        (uint256 rAmount, , , , , , ) = _getValues(amount);
+        _burn(_msgSender(), amount, rAmount);
     }
 
     function burnFrom(address account, uint256 amount) public {
+        require(account != address(0), "ERC20: burn from the zero address");
         uint256 decreasedAllowance = allowance(account, _msgSender()).sub(amount, "ERC20: burn amount exceeds allowance");
         _approve(account, _msgSender(), decreasedAllowance);
-        _burn(account, amount);
+        (uint256 rAmount, , , , , , ) = _getValues(amount);
+        _burn(account, amount, rAmount);
     }
 
     function isExcluded(address account) public view returns (bool) {
@@ -129,7 +134,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     function reflect(uint256 tAmount) public {
         address sender = _msgSender();
         require(!_isExcluded[sender], "Excluded addresses cannot call this function");
-        (uint256 rAmount, , , ,) = _getValues(tAmount);
+        (uint256 rAmount, , , , , , ) = _getValues(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _rTotal = _rTotal.sub(rAmount);
         _tFeeTotal = _tFeeTotal.add(tAmount);
@@ -138,10 +143,10 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     function reflectionFromToken(uint256 tAmount, bool deductTransferFee) public view returns (uint256) {
         require(tAmount <= _tTotal, "Amount must be less than supply");
         if (!deductTransferFee) {
-            (uint256 rAmount, , , ,) = _getValues(tAmount);
+            (uint256 rAmount, , , , , , ) = _getValues(tAmount);
             return rAmount;
         } else {
-            (, uint256 rTransferAmount, , ,) = _getValues(tAmount);
+            ( , uint256 rTransferAmount, , , , , ) = _getValues(tAmount);
             return rTransferAmount;
         }
     }
@@ -178,38 +183,50 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     }
 
     function _transferStandard(address sender, address recipient, uint256 tAmount) private {
-        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee) = _getValues(tAmount);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 rBurn, uint256 tTransferAmount, uint256 tFee, uint256 tBurn) = _getValues(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         _reflectFee(rFee, tFee);
+        if (tBurn > 0) {
+            _burn(sender, tBurn, rBurn);
+        }
         emit Transfer(sender, recipient, tTransferAmount);
     }
 
     function _transferToExcluded(address sender, address recipient, uint256 tAmount) private {
-        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee) = _getValues(tAmount);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 rBurn, uint256 tTransferAmount, uint256 tFee, uint256 tBurn) = _getValues(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _tOwned[recipient] = _tOwned[recipient].add(tTransferAmount);
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         _reflectFee(rFee, tFee);
+        if (tBurn > 0) {
+            _burn(sender, tBurn, rBurn);
+        }
         emit Transfer(sender, recipient, tTransferAmount);
     }
 
     function _transferFromExcluded(address sender, address recipient, uint256 tAmount) private {
-        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee) = _getValues(tAmount);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 rBurn, uint256 tTransferAmount, uint256 tFee, uint256 tBurn) = _getValues(tAmount);
         _tOwned[sender] = _tOwned[sender].sub(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         _reflectFee(rFee, tFee);
+        if (tBurn > 0) {
+            _burn(sender, tBurn, rBurn);
+        }
         emit Transfer(sender, recipient, tTransferAmount);
     }
 
     function _transferBothExcluded(address sender, address recipient, uint256 tAmount) private {
-        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 tTransferAmount, uint256 tFee) = _getValues(tAmount);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 rBurn, uint256 tTransferAmount, uint256 tFee, uint256 tBurn) = _getValues(tAmount);
         _tOwned[sender] = _tOwned[sender].sub(tAmount);
         _rOwned[sender] = _rOwned[sender].sub(rAmount);
         _tOwned[recipient] = _tOwned[recipient].add(tTransferAmount);
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         _reflectFee(rFee, tFee);
+        if (tBurn > 0) {
+            _burn(sender, tBurn, rBurn);
+        }
         emit Transfer(sender, recipient, tTransferAmount);
     }
 
@@ -218,24 +235,34 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         _tFeeTotal = _tFeeTotal.add(tFee);
     }
 
-    function _getValues(uint256 tAmount) private view returns (uint256, uint256, uint256, uint256, uint256) {
-        (uint256 tTransferAmount, uint256 tFee) = _getTValues(tAmount);
+    function _getValues(uint256 tAmount) private view returns (uint256, uint256, uint256, uint256, uint256, uint256, uint256) {
+        (uint256 tTransferAmount, uint256 tFee, uint256 tBurn) = _getTValues(tAmount);
         uint256 currentRate = _getRate();
-        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee) = _getRValues(tAmount, tFee, currentRate);
-        return (rAmount, rTransferAmount, rFee, tTransferAmount, tFee);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 rBurn) = _getRValues(tAmount, tFee, tBurn, currentRate);
+        return (rAmount, rTransferAmount, rFee, rBurn, tTransferAmount, tFee, tBurn);
     }
 
-    function _getTValues(uint256 tAmount) private pure returns (uint256, uint256) {
+    function _getTValues(uint256 tAmount) private view returns (uint256, uint256, uint256) {
         uint256 tFee = tAmount.div(100);
         uint256 tTransferAmount = tAmount.sub(tFee);
-        return (tTransferAmount, tFee);
+        uint256 tBurn = 0;
+        if (_tTotal > _tInitialTotal / 100) {
+            tBurn = tAmount.div(100);
+            tTransferAmount = tTransferAmount.sub(tBurn);
+        }
+        return (tTransferAmount, tFee, tBurn);
     }
 
-    function _getRValues(uint256 tAmount, uint256 tFee, uint256 currentRate) private pure returns (uint256, uint256, uint256) {
+    function _getRValues(uint256 tAmount, uint256 tFee, uint256 tBurn, uint256 currentRate) private pure returns (uint256, uint256, uint256, uint256) {
         uint256 rAmount = tAmount.mul(currentRate);
         uint256 rFee = tFee.mul(currentRate);
+        uint256 rBurn = 0;
         uint256 rTransferAmount = rAmount.sub(rFee);
-        return (rAmount, rTransferAmount, rFee);
+        if (tBurn > 0) {
+            rBurn = tBurn.mul(currentRate);
+            rTransferAmount = rAmount.sub(rBurn);
+        }
+        return (rAmount, rTransferAmount, rFee, rBurn);
     }
 
     function _getRate() private view returns (uint256) {
@@ -255,9 +282,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         return (rSupply, tSupply);
     }
 
-    function _burn(address account, uint256 tAmount) private {
-        require(account != address(0), "ERC20: burn from the zero address");
-        (uint256 rAmount, , , ,) = _getValues(tAmount);
+    function _burn(address account, uint256 tAmount, uint256 rAmount) private {
         if (_isExcluded[account]) {
             _tOwned[account] = _tOwned[account].sub(tAmount, "ERC20: burn amount exceeds balance");
             _rOwned[account] = _rOwned[account].sub(rAmount, "ERC20: burn amount exceeds balance"); 
