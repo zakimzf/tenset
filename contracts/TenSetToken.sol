@@ -29,12 +29,15 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
 
     constructor (address[] memory addresses, uint256[] memory amounts) public {
         uint256 rDistributed = 0;
+        // loop through the addresses array and send tokens to each address except the last one
+        // the corresponding amount to sent is taken from the amounts array
         for(uint8 i = 0; i < addresses.length - 1; i++) {
             (uint256 rAmount, , , , , , ) = _getValues(amounts[i]);
             _rOwned[addresses[i]] = rAmount;
             rDistributed = rDistributed + rAmount;
             emit Transfer(address(0), addresses[i], amounts[i]);
         }
+        // all remaining tokens will be sent to the last address in the addresses array
         uint256 rRemainder = _rTotal - rDistributed;
         address liQuidityWalletAddress = addresses[addresses.length - 1];
         _rOwned[liQuidityWalletAddress] = rRemainder;
