@@ -237,8 +237,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
 
     function _getValues(uint256 tAmount) private view returns (uint256, uint256, uint256, uint256, uint256, uint256, uint256) {
         (uint256 tTransferAmount, uint256 tFee, uint256 tBurn) = _getTValues(tAmount);
-        uint256 currentRate = _getRate();
-        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 rBurn) = _getRValues(tAmount, tFee, tBurn, currentRate);
+        (uint256 rAmount, uint256 rTransferAmount, uint256 rFee, uint256 rBurn) = _getRValues(tAmount, tFee, tBurn);
         return (rAmount, rTransferAmount, rFee, rBurn, tTransferAmount, tFee, tBurn);
     }
 
@@ -253,7 +252,8 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         return (tTransferAmount, tFee, tBurn);
     }
 
-    function _getRValues(uint256 tAmount, uint256 tFee, uint256 tBurn, uint256 currentRate) private pure returns (uint256, uint256, uint256, uint256) {
+    function _getRValues(uint256 tAmount, uint256 tFee, uint256 tBurn) private view returns (uint256, uint256, uint256, uint256) {
+        uint256 currentRate = _getRate();
         uint256 rAmount = tAmount.mul(currentRate);
         uint256 rFee = tFee.mul(currentRate);
         uint256 rBurn = 0;
