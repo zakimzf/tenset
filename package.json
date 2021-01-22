@@ -12,6 +12,9 @@
     "url": "https://github.com/BlockWit/TenSetToken/issues"
   },
   "homepage": "https://github.com/BlockWit/TenSetToken#readme",
+  "scripts": {
+    "flatten": "./node_modules/.bin/truffle-flattener ./contracts/Configurator.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/Configutrator.sol"
+  },
   "devDependencies": {
     "@openzeppelin/cli": "^2.8.2",
     "@openzeppelin/contracts": "^3.3.0",
