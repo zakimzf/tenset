@@ -71,8 +71,6 @@ contract Configurator is RetrieveTokensFeature {
         commonSale.setToken(address(token));
         freezeWallet.setToken(address(token));
 
-        commonSale = new CommonSale();
-
         commonSale.setPrice(PRICE);
         commonSale.setWallet(ETH_WALLET_ADDRESS);
         commonSale.addMilestone(STAGE1_START_DATE, STAGE1_END_DATE, STAGE1_BONUS, STAGE1_MIN_INVESTMENT, STAGE1_MAX_INVESTMENT, 0, 0, STAGE1_TOKEN_HARDCAP);
