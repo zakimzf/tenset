@@ -22,7 +22,7 @@ contract Configurator is RetrieveTokensFeature {
     address private constant LIQUIDITY_WALLET_ADDRESS  = address(0x0);
     address payable constant ETH_WALLET_ADDRESS        = address(0x0);
 
-    uint256 private constant PRICE                   = 10000;            // 1 ETH = 10000 10SET
+    uint256 private constant PRICE                   = 10000 * 1 ether;  // 1 ETH = 10000 10SET
 
     uint256 private constant STAGE1_START_DATE       = 1612072800;       // Jan 31 2021 07:00:00 GMT+0100
     uint256 private constant STAGE1_END_DATE         = 1612677600;       // Feb 07 2021 07:00:00 GMT+0100
