@@ -71,7 +71,7 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         uint256 limitedInvestValue = msg.value;
 
         // limit the minimum amount for one transaction (ETH) 
-        require(limitedInvestValue >= milestone.minInvestedLimit);
+        require(limitedInvestValue >= milestone.minInvestedLimit, "The amount is too small");
 
         // limit the maximum amount that one user can spend during the current milestone (ETH) 
         if (whitelistedMilestones[milestoneIndex]) {
