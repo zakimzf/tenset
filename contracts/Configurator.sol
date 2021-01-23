@@ -17,10 +17,10 @@ contract Configurator is RetrieveTokensFeature {
     uint256 private constant TEAM_AMOUNT               = 21500000 * 1 ether;
     uint256 private constant SALE_AMOUNT               = uint256(143500000 * 1 ether * 100) / 98;
 
-    address private constant OWNER_ADDRESS             = address(0x0);
-    address private constant COMPANY_RESERVE_ADDRESS   = address(0x0);
-    address private constant LIQUIDITY_WALLET_ADDRESS  = address(0x0);
-    address payable constant ETH_WALLET_ADDRESS        = address(0x0);
+    address private constant OWNER_ADDRESS             = address(0xf62158b03Edbdb92a12c64E4D8873195AC71aF6A);
+    address private constant COMPANY_RESERVE_ADDRESS   = address(0xf62158b03Edbdb92a12c64E4D8873195AC71aF6A);
+    address private constant LIQUIDITY_WALLET_ADDRESS  = address(0xf62158b03Edbdb92a12c64E4D8873195AC71aF6A);
+    address payable constant ETH_WALLET_ADDRESS        = payable(0xf62158b03Edbdb92a12c64E4D8873195AC71aF6A);
 
     uint256 private constant PRICE                   = 10000 * 1 ether;  // 1 ETH = 10000 10SET
 
