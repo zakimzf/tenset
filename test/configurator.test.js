@@ -1,6 +1,7 @@
 const { accounts, contract, web3 } = require('@openzeppelin/test-environment');
 const { balance, BN, ether, expectEvent, expectRevert, time } = require('@openzeppelin/test-helpers');
 const { assert, expect } = require('chai');
+const { getEvents } = require('./helpers');
 
 const Configurator = contract.fromArtifact('Configurator');
 const Token = contract.fromArtifact('TenSetToken');
@@ -41,13 +42,34 @@ describe('Configurator', async function () {
   });
 
   describe('STAGE_1', function () {
+    
+    const calculateTokens = function(etherToSend) {
+      return etherToSend.mul(PRICE).mul(new BN(11)).div(new BN(10));
+    }
+    
     beforeEach(async function () {
-      await time.increaseTo(STAGE1_START_DATE);
+      const currentDate = await time.latest()
+      if(currentDate < STAGE1_START_DATE) await time.increaseTo(STAGE1_START_DATE);
     });
 
     describe('non-whitelisted accounts', function () {
       it('should not be able to send ETH', async function () {
         await expectRevert(this.commonSale.sendTransaction({value: ether("1"), from: nonWhiteListedAccount}), "The address must be whitelisted!");
+      });
+
+      it('should be able to send ETH if whitelisting is disabled ', async function () {
+        await this.commonSale.unsetMilestoneWithWhitelist(0, {from: OWNER_ADDRESS});
+        const etherToSend1 = ether('31');
+        const tokenToReceive1 = calculateTokens(etherToSend1);
+        const tx1 = await this.commonSale.sendTransaction({value: etherToSend1, from: nonWhiteListedAccount});
+        const events1 = await getEvents(tx1.receipt.transactionHash, this.token,'Transfer', web3)
+        expect(new BN(events1.pop().value).eq(tokenToReceive1))
+        const etherToSend2 = ether('9');
+        const tokenToReceive2 = calculateTokens(etherToSend2);
+        const tx2 = await this.commonSale.sendTransaction({value: etherToSend1, from: nonWhiteListedAccount});
+        const events2 = await getEvents(tx2.receipt.transactionHash, this.token,'Transfer', web3)
+        expect(new BN(events2.pop().value).eq(tokenToReceive2))
+        await expectRevert(this.commonSale.sendTransaction({value: ether('1'), from: nonWhiteListedAccount}), "Investment limit exceeded!");
       });
     });
 
@@ -64,7 +86,7 @@ describe('Configurator', async function () {
         const balanceBefore = await balance.current(account1, 'ether');
         const etherToSend = ether("50");
         const etherToBeAccepted = ether("40");
-        const tokenToReceive = etherToBeAccepted.mul(PRICE).mul(new BN(11)).div(new BN(10));
+        const tokenToReceive = calculateTokens(etherToBeAccepted);
         const { receipt } = await this.commonSale.sendTransaction({value: etherToSend, from: account1});
         await expectEvent.inTransaction(receipt.transactionHash, this.token,'Transfer', {
           from: this.commonSaleAddress,
@@ -73,13 +95,14 @@ describe('Configurator', async function () {
         });
         const balanceAfter = await balance.current(account1, 'ether');
         expect(balanceAfter.add(etherToBeAccepted).eq(balanceBefore));
+        await expectRevert(this.commonSale.sendTransaction({value: STAGE1_MIN_INVESTMENT.addn(1), from: account1}), "Investment limit exceeded!");
       });
 
       it('should receive the appropriate number of tokens', async function () {
-        const etherToSend = ether("10");
+        const etherToSend = ether("27");
         const tokenTotal = etherToSend.mul(PRICE).mul(new BN(110)).div(new BN(98));
         const tokenToBurn = tokenTotal.div(new BN(100));
-        const tokenToSend = etherToSend.mul(PRICE).mul(new BN(11)).div(new BN(10));
+        const tokenToSend = calculateTokens(etherToSend);
         const { receipt } = await this.commonSale.sendTransaction({value: etherToSend, from: account1});
         await expectEvent.inTransaction(receipt.transactionHash, this.token,'Transfer', {
           from: this.commonSaleAddress,
@@ -89,7 +112,7 @@ describe('Configurator', async function () {
         await expectEvent.inTransaction(receipt.transactionHash, this.token,'Transfer', {
           from: this.commonSaleAddress,
           to: account1,
-          value: tokenToSend.addn(1) // .addn(1) is a dirty workaround to compensate integer calculcations issue 
+          value: tokenToSend
         });
       });
       

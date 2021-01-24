@@ -15,7 +15,7 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
     bool public isPause = false;
     mapping(address => bool) public whitelist;
 
-    mapping(uint256 => mapping(address => uint256)) public whitelistBalances;
+    mapping(uint256 => mapping(address => uint256)) public balances;
 
     mapping(uint256 => bool) public whitelistedMilestones;
 
@@ -30,9 +30,6 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
     function addToWhiteList(address target) public onlyOwner {
         require(!whitelist[target], "Already in whitelist");
         whitelist[target] = true;
-        for (uint i = 0; i < milestones.length; i++) {
-            whitelistBalances[i][target] = milestones[i].maxInvestedLimit;
-        }
     }
 
     function pause() public onlyOwner {
@@ -73,14 +70,17 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         // limit the minimum amount for one transaction (ETH) 
         require(limitedInvestValue >= milestone.minInvestedLimit, "The amount is too small");
 
-        // limit the maximum amount that one user can spend during the current milestone (ETH) 
+        // check if the milestone requires user to be whitelisted
         if (whitelistedMilestones[milestoneIndex]) {
             require(whitelist[_msgSender()], "The address must be whitelisted!");
-            require(whitelistBalances[milestoneIndex][_msgSender()] > 0, "Whitelist balance exceeded!");
-            if (limitedInvestValue > whitelistBalances[milestoneIndex][_msgSender()]) {
-                limitedInvestValue = whitelistBalances[milestoneIndex][_msgSender()];
-            }
         }
+
+        // limit the maximum amount that one user can spend during the current milestone (ETH)
+        uint256 maxAllowableValue = milestone.maxInvestedLimit - balances[milestoneIndex][_msgSender()];
+        if (limitedInvestValue > maxAllowableValue) {
+            limitedInvestValue = maxAllowableValue;
+        }
+        require(limitedInvestValue > 0, "Investment limit exceeded!");
 
         // apply a bonus if any (10SET)
         uint256 tokensWithoutBonus = limitedInvestValue.mul(price).div(1 ether);
@@ -104,9 +104,7 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         // update stats
         invested = invested.add(tokenBasedLimitedInvestValue);
         milestone.tokensSold = milestone.tokensSold.add(tokensWithBonus);
-        if (whitelistedMilestones[milestoneIndex]) {
-            whitelistBalances[milestoneIndex][_msgSender()] = whitelistBalances[milestoneIndex][_msgSender()].sub(tokenBasedLimitedInvestValue);
-        }
+        balances[milestoneIndex][_msgSender()] = balances[milestoneIndex][_msgSender()].add(tokenBasedLimitedInvestValue);
         
         wallet.transfer(tokenBasedLimitedInvestValue);
         
