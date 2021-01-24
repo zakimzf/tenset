@@ -42,14 +42,16 @@ describe('Configurator', async function () {
     
     await web3.eth.sendTransaction({ from: donor, to: OWNER_ADDRESS, value: ether("10")})
   });
-
-  it('should have owner', async function () {
-    expect(await this.commonSale.owner()).to.equal(OWNER_ADDRESS);
-  });
   
-  it('should not accept ETH before crowdsale start', async function () {
-    await expectRevert.unspecified(this.commonSale.sendTransaction({value: ether("1"), from: account1}));
-  });
+  describe('CommonSale', function() {
+    it('should have owner', async function () {
+      expect(await this.commonSale.owner()).to.equal(OWNER_ADDRESS);
+    });
+
+    it('should not accept ETH before crowdsale start', async function () {
+      await expectRevert.unspecified(this.commonSale.sendTransaction({value: ether("1"), from: account1}));
+    });
+  })
 
   describe('STAGE_1', function () {
     
@@ -65,7 +67,7 @@ describe('Configurator', async function () {
 
       it('should be able to send ETH if whitelisting is disabled ', async function () {
         await this.commonSale.unsetMilestoneWithWhitelist(0, {from: OWNER_ADDRESS});
-        const etherToSend = ether('31');
+        const etherToSend = STAGE1_MIN_INVESTMENT.addn(1);
         const tokenToReceive = calculateTokens(etherToSend, 0);
         const { receipt } = await this.commonSale.sendTransaction({value: etherToSend, from: nonWhiteListedAccount});
         await expectEvent.inTransaction(receipt.transactionHash, this.token, 'Transfer', {
@@ -102,7 +104,7 @@ describe('Configurator', async function () {
       });
 
       it('should receive the appropriate number of tokens', async function () {
-        const etherToSend = ether("27");
+        const etherToSend = ether("21");
         const tokenTotal = etherToSend.mul(PRICE).mul(new BN(110)).div(new BN(98));
         const tokenToBurn = tokenTotal.div(new BN(100));
         const tokenToSend = calculateTokens(etherToSend, 0);
@@ -118,11 +120,37 @@ describe('Configurator', async function () {
           value: tokenToSend
         });
       });
-      
     });
-
+    
+    it('should not allow to transfer tokens above the specified hardcap', async function () {
+      // set hardcap to 110 ETH
+      const NEW_TOKEN_HARDCAP = ether('1100000');
+      await this.commonSale.changeMilestone(0, STAGE1_START_DATE, STAGE1_END_DATE, STAGE1_BONUS, STAGE1_MIN_INVESTMENT, STAGE1_MAX_INVESTMENT, 0, 0, NEW_TOKEN_HARDCAP, {from: OWNER_ADDRESS});
+      await this.commonSale.addToWhiteList(account1, {from: OWNER_ADDRESS});
+      await this.commonSale.addToWhiteList(account2, {from: OWNER_ADDRESS});
+      await this.commonSale.addToWhiteList(account3, {from: OWNER_ADDRESS});
+      // first account
+      assert(true)
+      const etherToSend1 = ether('37');
+      const tokenToReceive1 = calculateTokens(etherToSend1, 0);
+      const { receipt: { transactionHash: txHash1 } } = await this.commonSale.sendTransaction({value: etherToSend1, from: account1});
+      const events1 = await getEvents(txHash1, this.token,'Transfer', web3);
+      expect(new BN(events1[1].args.value)).to.be.bignumber.equal(tokenToReceive1)
+      // second account
+      const etherToSend2 = ether('38');
+      const tokenToReceive2 = calculateTokens(etherToSend2, 0);
+      const { receipt: { transactionHash: txHash2 } } = await this.commonSale.sendTransaction({value: etherToSend2, from: account2});
+      const events2 = await getEvents(txHash2, this.token,'Transfer', web3);
+      expect(new BN(events2[1].args.value)).to.be.bignumber.equal(tokenToReceive2.addn(1)) // .addn(1) is a dirty workaround to compensate integer calculcations issue 
+      // third account
+      const etherToSend3 = ether('39');
+      const tokenToReceive3 = NEW_TOKEN_HARDCAP.sub(tokenToReceive1).sub(tokenToReceive2);
+      const { receipt: { transactionHash: txHash3 } } = await this.commonSale.sendTransaction({value: etherToSend3, from: account3});
+      const events3 = await getEvents(txHash3, this.token,'Transfer', web3);
+      expect(new BN(events3[1].args.value)).to.be.bignumber.equal(tokenToReceive3.addn(1)) // .addn(1) is a dirty workaround to compensate integer calculcations issue 
+    });
+    
   });
-
   
   
 });
