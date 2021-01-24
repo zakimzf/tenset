@@ -51,6 +51,14 @@ describe('Configurator', async function () {
     it('should not accept ETH before crowdsale start', async function () {
       await expectRevert.unspecified(this.commonSale.sendTransaction({value: ether("1"), from: account1}));
     });
+
+    it('should allow to retrieve tokens', async function () {
+      const accountBalanceBefore = await this.token.balanceOf(account1);
+      await this.commonSale.retrieveTokens(account1, this.tokenAddress, {from: OWNER_ADDRESS});
+      const commonSaleBalanceAfter = await this.token.balanceOf(this.commonSaleAddress);
+      expect(accountBalanceBefore).to.be.bignumber.equal(new BN('0'));
+      expect(commonSaleBalanceAfter).to.be.bignumber.equal(new BN('0'));
+    });
   })
 
   describe('STAGE_1', function () {

@@ -19,6 +19,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
 
     uint256 private constant MAX = ~uint256(0);
     uint256 private constant INITIAL_SUPPLY = 210000000 * 10 ** 18;
+    uint256 private constant BURN_STOP_SUPPLY = 2100000 * 10 ** 18;
     uint256 private _tTotal = INITIAL_SUPPLY;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
@@ -196,7 +197,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         _reflectFee(rFee, tFee);
         if (tBurn > 0) {
-            _burn(sender, tBurn, rBurn);
+            _reflectBurn(rBurn, tBurn, sender);
         }
         emit Transfer(sender, recipient, tTransferAmount);
     }
@@ -208,7 +209,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         _reflectFee(rFee, tFee);
         if (tBurn > 0) {
-            _burn(sender, tBurn, rBurn);
+            _reflectBurn(rBurn, tBurn, sender);
         }
         emit Transfer(sender, recipient, tTransferAmount);
     }
@@ -220,7 +221,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         _reflectFee(rFee, tFee);
         if (tBurn > 0) {
-            _burn(sender, tBurn, rBurn);
+            _reflectBurn(rBurn, tBurn, sender);
         }
         emit Transfer(sender, recipient, tTransferAmount);
     }
@@ -233,7 +234,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         _rOwned[recipient] = _rOwned[recipient].add(rTransferAmount);
         _reflectFee(rFee, tFee);
         if (tBurn > 0) {
-            _burn(sender, tBurn, rBurn);
+            _reflectBurn(rBurn, tBurn, sender);
         }
         emit Transfer(sender, recipient, tTransferAmount);
     }
@@ -241,6 +242,12 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
     function _reflectFee(uint256 rFee, uint256 tFee) private {
         _rTotal = _rTotal.sub(rFee);
         _tFeeTotal = _tFeeTotal.add(tFee);
+    }
+
+    function _reflectBurn(uint256 rBurn, uint256 tBurn, address account) private {
+        _rTotal = _rTotal.sub(rBurn);
+        _tTotal = _tTotal.sub(tBurn);
+        emit Transfer(account, address(0), tBurn);
     }
 
     function _getValues(uint256 tAmount) private view returns (uint256, uint256, uint256, uint256, uint256, uint256, uint256) {
@@ -253,8 +260,11 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         uint256 tFee = tAmount.div(100);
         uint256 tTransferAmount = tAmount.sub(tFee);
         uint256 tBurn = 0;
-        if (_tTotal > INITIAL_SUPPLY / 100) {
+        if (_tTotal > BURN_STOP_SUPPLY) {
             tBurn = tAmount.div(100);
+            if (_tTotal < BURN_STOP_SUPPLY.add(tBurn)) {
+                tBurn = _tTotal.sub(BURN_STOP_SUPPLY);
+            }
             tTransferAmount = tTransferAmount.sub(tBurn);
         }
         return (tTransferAmount, tFee, tBurn);
@@ -297,9 +307,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         } else {
             _rOwned[account] = _rOwned[account].sub(rAmount, "ERC20: burn amount exceeds balance");
         }
-        _tTotal = _tTotal.sub(tAmount);
-        _rTotal = _rTotal.sub(rAmount);
-        emit Transfer(account, address(0), tAmount);
+        _reflectBurn(rAmount, tAmount, account);
     }
 }
 
