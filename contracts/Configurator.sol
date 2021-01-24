@@ -13,14 +13,18 @@ contract Configurator is RetrieveTokensFeature {
 
     uint256 private constant MAX = ~uint256(0);
 
-    uint256 private constant COMPANY_RESERVE_AMOUNT    = 31500000 * 1 ether;
-    uint256 private constant TEAM_AMOUNT               = 21500000 * 1 ether;
-    uint256 private constant SALE_AMOUNT               = uint256(143500000 * 1 ether * 100) / 98;
+    uint256 private constant COMPANY_RESERVE_AMOUNT    = 21000000 * 1 ether;
+    uint256 private constant TEAM_AMOUNT               = 21000000 * 1 ether;
+    uint256 private constant MARKETING_AMOUNT          = 21000000 * 1 ether;
+    uint256 private constant LIQUIDITY_RESERVE         = 10500000 * 1 ether;
+    uint256 private constant SALE_AMOUNT               = uint256(147000000 * 1 ether * 100) / 98;
 
-    address private constant OWNER_ADDRESS             = address(0xf62158b03Edbdb92a12c64E4D8873195AC71aF6A);
-    address private constant COMPANY_RESERVE_ADDRESS   = address(0xf62158b03Edbdb92a12c64E4D8873195AC71aF6A);
-    address private constant LIQUIDITY_WALLET_ADDRESS  = address(0xf62158b03Edbdb92a12c64E4D8873195AC71aF6A);
-    address payable constant ETH_WALLET_ADDRESS        = payable(0xf62158b03Edbdb92a12c64E4D8873195AC71aF6A);
+    address private constant OWNER_ADDRESS             = address(0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303);
+    address private constant TEAM_WALLET_OWNER_ADDRESS = address(0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7);
+    address private constant MARKETING_WALLET_ADDRESS  = address(0x127D069DC8B964a813889D349eD3dA3f6D35383D);
+    address private constant COMPANY_RESERVE_ADDRESS   = address(0x7BD3b301f3537c75bf64B7468998d20045cfa48e);
+    address private constant LIQUIDITY_WALLET_ADDRESS  = address(0x91E84302594deFaD552938B6D0D56e9f39908f9F);
+    address payable constant ETH_WALLET_ADDRESS        = payable(0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303);
 
     uint256 private constant PRICE                   = 10000 * 1 ether;  // 1 ETH = 10000 10SET
 
@@ -57,14 +61,16 @@ contract Configurator is RetrieveTokensFeature {
         freezeWallet = new FreezeTokenWallet();
         commonSale = new CommonSale();
 
-        addresses.push(address(freezeWallet));
-        amounts.push(TEAM_AMOUNT);
-        addresses.push(address(commonSale));
-        amounts.push(SALE_AMOUNT);
         addresses.push(COMPANY_RESERVE_ADDRESS);
         amounts.push(COMPANY_RESERVE_AMOUNT);
+        addresses.push(address(freezeWallet));
+        amounts.push(TEAM_AMOUNT);
+        addresses.push(MARKETING_WALLET_ADDRESS);
+        amounts.push(MARKETING_AMOUNT);
+        addresses.push(address(commonSale));
+        amounts.push(SALE_AMOUNT);
         addresses.push(LIQUIDITY_WALLET_ADDRESS);
-        amounts.push(0); // will receive the remaining tokens
+        amounts.push(0); // will receive the remaining tokens (shoul be equal to LIQUIDITY_RESERVE)
 
         token = new TenSetToken(addresses, amounts);
 
@@ -82,7 +88,7 @@ contract Configurator is RetrieveTokensFeature {
         freezeWallet.start();
 
         token.transferOwnership(OWNER_ADDRESS);
-        freezeWallet.transferOwnership(OWNER_ADDRESS);
+        freezeWallet.transferOwnership(TEAM_WALLET_OWNER_ADDRESS);
         commonSale.transferOwnership(OWNER_ADDRESS);
     }
 

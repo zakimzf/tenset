@@ -12,8 +12,13 @@ const ERC20Mock = contract.fromArtifact('ERC20Mock');
 describe('Configurator', async function () {
 
   const [ nonWhiteListedAccount, account1, account2, account3, donor ] = accounts;
-  const NULL_ADDRESS            = '0x0000000000000000000000000000000000000000';
-  const OWNER_ADDRESS           = '0xf62158b03Edbdb92a12c64E4D8873195AC71aF6A';
+  const NULL_ADDRESS              = '0x0000000000000000000000000000000000000000';
+  const OWNER_ADDRESS             = '0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303';
+  const TEAM_WALLET_OWNER_ADDRESS = '0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7';
+  const MARKETING_WALLET_ADDRESS  = '0x127D069DC8B964a813889D349eD3dA3f6D35383D';
+  const COMPANY_RESERVE_ADDRESS   = '0x7BD3b301f3537c75bf64B7468998d20045cfa48e';
+  const LIQUIDITY_WALLET_ADDRESS  = '0x91E84302594deFaD552938B6D0D56e9f39908f9F';
+  const ETH_WALLET_ADDRESS        = '0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303';
   const PRICE                   = new BN(10000);
   const STAGE1_START_DATE       = 1612072800;
   const STAGE1_END_DATE         = 1612677600;
@@ -211,7 +216,7 @@ describe('Configurator', async function () {
 
   describe('FreezeTokenWallet', function() {
     it('should have owner', async function () {
-      expect(await this.freezeWallet.owner()).to.equal(OWNER_ADDRESS);
+      expect(await this.freezeWallet.owner()).to.equal(TEAM_WALLET_OWNER_ADDRESS);
     });
 
   })

@@ -51,10 +51,11 @@ EXODUS not support ERC20, but have way to export key into MyEtherWallet - http:/
 ## Main network configuration 
 
 ### Token distibution
-1. Company Reserve + marketing (15%): 31,500,000 
-2. Liquid Reserve (5%)              : 10,500,000
-3. Team (10%)                       : 21,500,000
-5. Sales stages                     : 143,500,000
+1. Company Reserve (10%)            : 21,000,000 
+2. Team (10%)                       : 21,000,000
+3. Marketing (5%)                   : 10,500,000 
+4. Liquidity Reserve (5%)           : 10,500,000
+5. Sales                            : 147,000,000
 
 ### Sale stages
 
@@ -86,24 +87,26 @@ common price: 1 ETH = 10000 10SET
 
 
 ### Links 
-1. _TenSETToken_ contract         :
-2. _CommonSale_ contract          :
-3. _FreezeWallet_ contract        :
-4. _Configurator_ contract        :
-5. ETH wallet address             :
-6. Company reserve wallet address :
-7. Liquid Reserve wallet address  :
-8. Contracts admin address        :
+1. _TenSETToken_ contract           :
+2. _CommonSale_ contract            :
+3. _FreezeWallet_ contract          :
+4. _Configurator_ contract          :
+5. ETH wallet address               :
+6. Company reserve wallet address   :
+7. Liquid Reserve wallet address    :
+8. Contracts admin address          :
 
 ### Addresses 
-1. _TenSETToken_ contract         :
-2. _CommonSale_ contract          :
-3. _FreezeWallet_ contract        :
-4. _Configurator_ contract        :
-5. ETH wallet address             :
-6. Company reserve wallet address :
-7. Liquid Reserve wallet address  :
-8. Contracts admin address        :
+1. _TenSETToken_ contract           :
+2. _CommonSale_ contract            :
+3. _FreezeWallet_ contract          :
+4. _Configurator_ contract          :
+5. ETH wallet address               : 0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303
+6. Company reserve wallet address   : 0x7BD3b301f3537c75bf64B7468998d20045cfa48e
+7. Team wallet owner address        : 0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7
+8. Marketig wallet address          : 0x127D069DC8B964a813889D349eD3dA3f6D35383D
+9. Liquidity reserve wallet address : 0x91E84302594deFaD552938B6D0D56e9f39908f9F
+10. Admin wallet address            : 0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303
 
 ### Transactions
 
