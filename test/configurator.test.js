@@ -7,6 +7,7 @@ const Configurator = contract.fromArtifact('Configurator');
 const Token = contract.fromArtifact('TenSetToken');
 const FreezeTokenWallet = contract.fromArtifact('FreezeTokenWallet');
 const CommonSale = contract.fromArtifact('CommonSale');
+const ERC20Mock = contract.fromArtifact('ERC20Mock');
 
 describe('Configurator', async function () {
 
@@ -20,6 +21,7 @@ describe('Configurator', async function () {
   const STAGE1_TOKEN_HARDCAP    = ether("11000000");
   const STAGE1_MIN_INVESTMENT   = ether("0.1");
   const STAGE1_MAX_INVESTMENT   = ether("40");
+  const STAGE3_START_DATE       = 1613282400;
 
   const calculateTokens = function(etherToSend, stage) {
     switch (stage) {
@@ -58,6 +60,33 @@ describe('Configurator', async function () {
       const commonSaleBalanceAfter = await this.token.balanceOf(this.commonSaleAddress);
       expect(accountBalanceBefore).to.be.bignumber.equal(new BN('0'));
       expect(commonSaleBalanceAfter).to.be.bignumber.equal(new BN('0'));
+    });
+
+    it('should allow to retrieve tokens other than TenSetToken', async function () {
+      const alienToken = await ERC20Mock.new('TEST', 'TST', account1, new BN(1000), {from: account1});
+      await alienToken.transfer(this.commonSaleAddress, new BN(1000), {from: account1});
+      const accountBalanceBefore = await alienToken.balanceOf(account1);
+      const commonSaleBalanceBefore = await alienToken.balanceOf(this.commonSaleAddress);
+      expect(accountBalanceBefore).to.be.bignumber.equal(new BN(0));
+      expect(commonSaleBalanceBefore).to.be.bignumber.equal(new BN(1000));
+      const {receipt: {transactionHash}} = await this.commonSale.retrieveTokens(account1, alienToken.address, {from: OWNER_ADDRESS});
+      await expectEvent.inTransaction(transactionHash, alienToken, 'Transfer', {
+        from: this.commonSaleAddress,
+        to: account1,
+        value: new BN(1000)
+      })
+      const accountBalanceAfter = await alienToken.balanceOf(account1);
+      const commonSaleBalanceAfter = await alienToken.balanceOf(this.commonSaleAddress);
+      expect(accountBalanceAfter).to.be.bignumber.equal(new BN(1000));
+      expect(commonSaleBalanceAfter).to.be.bignumber.equal(new BN(0));
+    });
+
+    it('should not allow non-owners to retrieve tokens', async function () {
+      await expectRevert(this.commonSale.retrieveTokens(account1, this.tokenAddress, {from: account1}), "Ownable: caller is not the owner");
+    });
+
+    it('should not allow non-owners to change ETH wallet', async function () {
+      await expectRevert(this.commonSale.setWallet(account1, {from: account1}), "Ownable: caller is not the owner");
     });
   })
 
@@ -159,7 +188,33 @@ describe('Configurator', async function () {
     });
     
   });
-  
-  
+
+  describe('STAGE_3', function () {
+
+    beforeEach(async function () {
+      const currentDate = await time.latest()
+      if (currentDate < STAGE3_START_DATE) await time.increaseTo(STAGE3_START_DATE);
+    });
+
+    it('should transfer tokens to non-whitelisted accounts', async function () {
+      const etherToSend = ether("21");
+      const tokenToSend = calculateTokens(etherToSend, 3);
+      const { receipt } = await this.commonSale.sendTransaction({value: etherToSend, from: nonWhiteListedAccount});
+      await expectEvent.inTransaction(receipt.transactionHash, this.token,'Transfer', {
+        from: this.commonSaleAddress,
+        to: nonWhiteListedAccount,
+        value: tokenToSend.addn(1) // .addn(1) is a dirty workaround to compensate integer calculcations issue 
+      });
+    });
+
+  });
+
+  describe('FreezeTokenWallet', function() {
+    it('should have owner', async function () {
+      expect(await this.freezeWallet.owner()).to.equal(OWNER_ADDRESS);
+    });
+
+  })
+ 
 });
 
