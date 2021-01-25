@@ -70,7 +70,7 @@ contract Configurator is RetrieveTokensFeature {
         addresses.push(address(commonSale));
         amounts.push(SALE_AMOUNT);
         addresses.push(LIQUIDITY_WALLET_ADDRESS);
-        amounts.push(0); // will receive the remaining tokens (shoul be equal to LIQUIDITY_RESERVE)
+        amounts.push(0); // will receive the remaining tokens (should be slightly less than LIQUIDITY_RESERVE)
 
         token = new TenSetToken(addresses, amounts);
 
