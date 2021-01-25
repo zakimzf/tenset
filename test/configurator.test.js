@@ -196,6 +196,14 @@ describe('Configurator', async function () {
       const events3 = await getEvents(txHash3, this.token,'Transfer', web3);
       expect(new BN(events3[1].args.value)).to.be.bignumber.equal(tokenToReceive3.addn(1)) // .addn(1) is a dirty workaround to compensate integer calculcations issue 
     });
+
+    it('should allow adding multiple addresses to the whitelist', async function () {
+      const addresses = [account1, account2, account3];
+      await this.commonSale.addToWhiteListMultiple(addresses, {from: OWNER_ADDRESS});
+      for (const address of addresses) {
+        expect(await this.commonSale.whitelist(address)).equal(true);
+      }
+    });
     
   });
 

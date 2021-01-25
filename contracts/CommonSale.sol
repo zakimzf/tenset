@@ -32,6 +32,12 @@ contract CommonSale is StagedCrowdsale, RetrieveTokensFeature {
         whitelist[target] = true;
     }
 
+    function addToWhiteListMultiple(address[] memory targets) public onlyOwner {
+        for (uint i = 0; i < targets.length; i++) {
+            if (!whitelist[targets[i]]) whitelist[targets[i]] = true;
+        }
+    }
+
     function pause() public onlyOwner {
         isPause = true;
     }
