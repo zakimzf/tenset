@@ -15,7 +15,7 @@ contract Configurator is RetrieveTokensFeature {
 
     uint256 private constant COMPANY_RESERVE_AMOUNT    = 21000000 * 1 ether;
     uint256 private constant TEAM_AMOUNT               = 21000000 * 1 ether;
-    uint256 private constant MARKETING_AMOUNT          = 21000000 * 1 ether;
+    uint256 private constant MARKETING_AMOUNT          = 10500000 * 1 ether;
     uint256 private constant LIQUIDITY_RESERVE         = 10500000 * 1 ether;
     uint256 private constant SALE_AMOUNT               = uint256(147000000 * 1 ether * 100) / 98;
 

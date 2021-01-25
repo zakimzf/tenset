@@ -20,6 +20,11 @@ describe('Configurator', async function () {
   const LIQUIDITY_WALLET_ADDRESS  = '0x91E84302594deFaD552938B6D0D56e9f39908f9F';
   const ETH_WALLET_ADDRESS        = '0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303';
   const PRICE                   = new BN(10000);
+  const COMPANY_RESERVE_AMOUNT    = ether('21000000');
+  const TEAM_AMOUNT               = ether('21000000');
+  const MARKETING_AMOUNT          = ether('10500000');
+  const LIQUIDITY_RESERVE         = ether('10500000').sub(ether('3000000')); // 3 000 000 goes to the SALE_AOUNT
+  const SALE_AMOUNT               = ether('147000000').mul(new BN('100')).div(new BN('98'));
   const STAGE1_START_DATE       = 1612072800;
   const STAGE1_END_DATE         = 1612677600;
   const STAGE1_BONUS            = 10;
@@ -50,6 +55,16 @@ describe('Configurator', async function () {
     await web3.eth.sendTransaction({ from: donor, to: OWNER_ADDRESS, value: ether("10")})
     await web3.eth.sendTransaction({ from: donor, to: TEAM_WALLET_OWNER_ADDRESS, value: ether("10")})
   });
+  
+  describe('Addresses', function() {
+    it('should have the correct distribution of tokens', async function () {
+      expect(await this.token.balanceOf(COMPANY_RESERVE_ADDRESS)).to.be.bignumber.equal(COMPANY_RESERVE_AMOUNT);
+      expect(await this.token.balanceOf(this.freezeWalletAddress)).to.be.bignumber.equal(TEAM_AMOUNT);
+      expect(await this.token.balanceOf(MARKETING_WALLET_ADDRESS)).to.be.bignumber.equal(MARKETING_AMOUNT);
+      expect(await this.token.balanceOf(this.commonSaleAddress)).to.be.bignumber.equal(SALE_AMOUNT);
+      expect(await this.token.balanceOf(LIQUIDITY_WALLET_ADDRESS)).to.be.bignumber.equal(LIQUIDITY_RESERVE);
+    });
+  })
   
   describe('CommonSale', function() {
     it('should have owner', async function () {
