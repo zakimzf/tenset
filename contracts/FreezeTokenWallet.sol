@@ -45,8 +45,8 @@ contract FreezeTokenWallet is RetrieveTokensFeature {
     token = IERC20Cutted(newToken);
   }
 
-  function start() public onlyOwner notStarted {
-    startUnlock = now + startLockPeriod;
+  function start(uint startDate) public onlyOwner notStarted {
+    startUnlock = startDate + startLockPeriod;
     retrievedTokens = 0;
     startBalance = token.balanceOf(address(this));
     started = true;

@@ -228,7 +228,7 @@ describe('Configurator', async function () {
       const currentDate = await time.latest()
       if (currentDate < STAGE3_START_DATE) await time.increaseTo(STAGE3_START_DATE);
     });
-
+    
     it('should transfer tokens to non-whitelisted accounts', async function () {
       const etherToSend = ether("21");
       const tokenToSend = calculateTokens(etherToSend, 3);
@@ -265,9 +265,8 @@ describe('Configurator', async function () {
       const amountToTransfer = events[0].args.value;
       expect(new BN(amountToTransfer)).to.be.bignumber.equal(new BN(1000));
     });
- 
+
     it('should allow withdrawal of tokens in accordance with the withdrawal policy', async function () {
-      await this.freezeWallet.retrieveWalletTokens(account1, {from: TEAM_WALLET_OWNER_ADDRESS});
       const initialBalance = await this.token.balanceOf(this.freezeWalletAddress);
       const tranche = initialBalance.mul(new BN(98)).div(new BN(1000)); // 98% of (initialBalance / 10)
       const months = n => n * 30 * 24 * 3600;
@@ -289,7 +288,6 @@ describe('Configurator', async function () {
         if (currentDate < STAGE1_START_DATE + delay) await time.increaseTo(STAGE1_START_DATE + delay);
         const {receipt: {transactionHash}} = await this.freezeWallet.retrieveWalletTokens(account1, {from: TEAM_WALLET_OWNER_ADDRESS});
         const events = await getEvents(transactionHash, this.token,'Transfer', web3);
-        // sometimes fails and requires rerunning the test
         const tokensToSend = new BN(events[1].args.value);
         const tokensRemained = await this.token.balanceOf(this.freezeWalletAddress);
         if (idx !== 9) {

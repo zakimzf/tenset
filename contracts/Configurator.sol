@@ -85,7 +85,7 @@ contract Configurator is RetrieveTokensFeature {
         commonSale.setMilestoneWithWhitelist(1);
         commonSale.addMilestone(STAGE3_START_DATE, STAGE3_END_DATE, STAGE3_BONUS, STAGE3_MIN_INVESTMENT, STAGE3_MAX_INVESTMENT, 0, 0, STAGE3_TOKEN_HARDCAP);
 
-        freezeWallet.start();
+        freezeWallet.start(STAGE1_START_DATE);
 
         token.transferOwnership(OWNER_ADDRESS);
         freezeWallet.transferOwnership(TEAM_WALLET_OWNER_ADDRESS);
