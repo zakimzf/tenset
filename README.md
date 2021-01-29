@@ -11,6 +11,16 @@
 * _Token offers_    : 3
 * _Token locks_     : No
 
+## Devevelopment and project management
+* Michał Pomykała
+* Gabriel Domanowski
+* Andrey Ovcharenko
+* Evgeny Deev
+
+## Audit
+* Radosław Cymer
+* Tomasz Keczkowski
+
 ## Smart-contracts description
 
 10SET Token smart-contract
