@@ -19,19 +19,20 @@ describe('Configurator', async function () {
   const COMPANY_RESERVE_ADDRESS   = '0x7BD3b301f3537c75bf64B7468998d20045cfa48e';
   const LIQUIDITY_WALLET_ADDRESS  = '0x91E84302594deFaD552938B6D0D56e9f39908f9F';
   const ETH_WALLET_ADDRESS        = '0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303';
+  const DEPLOYER_ADDRESS          = '0x6E9DC3D20B906Fd2B52eC685fE127170eD2165aB';
   const PRICE                   = new BN(10000);
   const COMPANY_RESERVE_AMOUNT    = ether('21000000');
   const TEAM_AMOUNT               = ether('21000000');
   const MARKETING_AMOUNT          = ether('10500000');
   const LIQUIDITY_RESERVE         = ether('10500000').sub(ether('3000000')); // 3 000 000 goes to the SALE_AOUNT
   const SALE_AMOUNT               = ether('147000000').mul(new BN('100')).div(new BN('98'));
-  const STAGE1_START_DATE       = 1612072800;
-  const STAGE1_END_DATE         = 1612677600;
+  const STAGE1_START_DATE       = 1612116000;
+  const STAGE1_END_DATE         = 1612720800;
   const STAGE1_BONUS            = 10;
   const STAGE1_TOKEN_HARDCAP    = ether("11000000");
   const STAGE1_MIN_INVESTMENT   = ether("0.1");
   const STAGE1_MAX_INVESTMENT   = ether("40");
-  const STAGE3_START_DATE       = 1613282400;
+  const STAGE3_START_DATE       = 1615744800;
 
   const calculateTokens = function(etherToSend, stage) {
     switch (stage) {
@@ -54,6 +55,8 @@ describe('Configurator', async function () {
     
     await web3.eth.sendTransaction({ from: donor, to: OWNER_ADDRESS, value: ether("10")})
     await web3.eth.sendTransaction({ from: donor, to: TEAM_WALLET_OWNER_ADDRESS, value: ether("10")})
+    await web3.eth.sendTransaction({ from: donor, to: DEPLOYER_ADDRESS, value: ether("10")})
+    await this.commonSale.transferOwnership(OWNER_ADDRESS, {from: DEPLOYER_ADDRESS});
   });
   
   describe('Addresses', function() {

@@ -9,7 +9,8 @@ module.exports = {
     gasLimit: 20e6, // Maximum gas per block
     unlocked_accounts: [
       '0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303',
-      '0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7'
+      '0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7',
+      '0x6E9DC3D20B906Fd2B52eC685fE127170eD2165aB'
     ]
   }
 };

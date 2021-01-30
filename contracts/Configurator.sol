@@ -25,24 +25,25 @@ contract Configurator is RetrieveTokensFeature {
     address private constant COMPANY_RESERVE_ADDRESS   = address(0x7BD3b301f3537c75bf64B7468998d20045cfa48e);
     address private constant LIQUIDITY_WALLET_ADDRESS  = address(0x91E84302594deFaD552938B6D0D56e9f39908f9F);
     address payable constant ETH_WALLET_ADDRESS        = payable(0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303);
+    address private constant DEPLOYER_ADDRESS          = address(0x6E9DC3D20B906Fd2B52eC685fE127170eD2165aB);
 
     uint256 private constant PRICE                   = 10000 * 1 ether;  // 1 ETH = 10000 10SET
 
-    uint256 private constant STAGE1_START_DATE       = 1612072800;       // Jan 31 2021 07:00:00 GMT+0100
-    uint256 private constant STAGE1_END_DATE         = 1612677600;       // Feb 07 2021 07:00:00 GMT+0100
+    uint256 private constant STAGE1_START_DATE       = 1612116000;       // Jan 31 2021 19:00:00 GMT+0100
+    uint256 private constant STAGE1_END_DATE         = 1612720800;       // Feb 07 2021 19:00:00 GMT+0100
     uint256 private constant STAGE1_BONUS            = 10;
     uint256 private constant STAGE1_MIN_INVESTMENT   = 1 * 10 ** 17;     // 0.1 ETH
     uint256 private constant STAGE1_MAX_INVESTMENT   = 40 * 1 ether;     // 40 ETH
     uint256 private constant STAGE1_TOKEN_HARDCAP    = 11000000 * 1 ether;
 
-    uint256 private constant STAGE2_START_DATE       = 1612677600;       // Feb 07 2021 07:00:00 GMT+0100
-    uint256 private constant STAGE2_END_DATE         = 1613282400;       // Feb 14 2021 07:00:00 GMT+0100 
+    uint256 private constant STAGE2_START_DATE       = 1615140000;       // Mar 07 2021 19:00:00 GMT+0100
+    uint256 private constant STAGE2_END_DATE         = 1615744800;       // Mar 14 2021 19:00:00 GMT+0100 
     uint256 private constant STAGE2_BONUS            = 5;
     uint256 private constant STAGE2_MIN_INVESTMENT   = 0.1 * 1 ether;    // 0.1 ETH
     uint256 private constant STAGE2_MAX_INVESTMENT   = 100 * 1 ether;    // 100 ETH
     uint256 private constant STAGE2_TOKEN_HARDCAP    = 52500000 * 1 ether;
 
-    uint256 private constant STAGE3_START_DATE       = 1613282400;       // Feb 14 2021 07:00:00 GMT+0100 
+    uint256 private constant STAGE3_START_DATE       = 1615744800;       // Mar 14 2021 19:00:00 GMT+0100 
     uint256 private constant STAGE3_END_DATE         = 253374588000;     // Feb 14 9999 07:00:00 GMT+0100 
     uint256 private constant STAGE3_BONUS            = 0;
     uint256 private constant STAGE3_MIN_INVESTMENT   = 0;                // 0 ETH
@@ -89,7 +90,7 @@ contract Configurator is RetrieveTokensFeature {
 
         token.transferOwnership(OWNER_ADDRESS);
         freezeWallet.transferOwnership(TEAM_WALLET_OWNER_ADDRESS);
-        commonSale.transferOwnership(OWNER_ADDRESS);
+        commonSale.transferOwnership(DEPLOYER_ADDRESS);
     }
 
 }
