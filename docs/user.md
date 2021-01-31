@@ -125,7 +125,7 @@ If you are using MyEtherWallet, you need to do the following:
 
 ## Managing tokens
 To add tokens to your wallet, you need the following information:
-* Token Contract Address - **[0x93314827393cc16f1b0f1cf4172f1cfc79897b28](https://etherscan.io/token/0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f)**
+* Token Contract Address - **[0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f](https://etherscan.io/token/0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f)**
 * Token Symbol — **10SET**
 * Decimals — **18**
 
