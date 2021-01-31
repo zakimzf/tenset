@@ -139,7 +139,7 @@ If you are using MyEtherWallet, you need to do the following:
 
     </details><br>
   
-3. Enter **0x93314827393cc16f1b0f1cf4172f1cfc79897b28** in the `Token Contract Address` field, **10SET** in `Token Symbol` and **18** in `Decimals`. Click `Save`.
+3. Enter **0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f** in the `Token Contract Address` field, **10SET** in `Token Symbol` and **18** in `Decimals`. Click `Save`.
     <details><summary>Click to see screenshot</summary>
 
     ![managing_tokens_01](images/managing_tokens_02.png)
