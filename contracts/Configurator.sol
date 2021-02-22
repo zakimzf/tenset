@@ -76,8 +76,6 @@ contract Configurator is RetrieveTokensFeature {
         token = new TenSetToken(addresses, amounts);
 
         commonSale.setToken(address(token));
-        freezeWallet.setToken(address(token));
-
         commonSale.setPrice(PRICE);
         commonSale.setWallet(ETH_WALLET_ADDRESS);
         commonSale.addMilestone(STAGE1_START_DATE, STAGE1_END_DATE, STAGE1_BONUS, STAGE1_MIN_INVESTMENT, STAGE1_MAX_INVESTMENT, 0, 0, STAGE1_TOKEN_HARDCAP);
@@ -86,7 +84,11 @@ contract Configurator is RetrieveTokensFeature {
         commonSale.setMilestoneWithWhitelist(1);
         commonSale.addMilestone(STAGE3_START_DATE, STAGE3_END_DATE, STAGE3_BONUS, STAGE3_MIN_INVESTMENT, STAGE3_MAX_INVESTMENT, 0, 0, STAGE3_TOKEN_HARDCAP);
 
-        freezeWallet.start(STAGE1_START_DATE);
+        freezeWallet.setToken(address(token));
+        freezeWallet.setStartDate(STAGE1_START_DATE);
+        freezeWallet.setDuration(900); // 2.5 years = 30 months = 900 days
+        freezeWallet.setInterval(90); // 3 months = 90 days
+        freezeWallet.start();
 
         token.transferOwnership(OWNER_ADDRESS);
         freezeWallet.transferOwnership(TEAM_WALLET_OWNER_ADDRESS);

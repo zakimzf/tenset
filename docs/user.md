@@ -95,7 +95,7 @@ Before sending, make sure that:
 If you are using MyEtherWallet, you need to do the following:
 1. Go to [myetherwallet.com](https://www.myetherwallet.com)
 
-2. Click `Send Transaction`. Select `amount` to send and sale contract [address](https://etherscan.io/address/0x93314827393cc16f1b0f1cf4172f1cfc79897b28#readContract). You can leave the `gas price` as is or specify your own.
+2. Click `Send Transaction`. Select `amount` to send and sale contract [address](https://etherscan.io/address/0x93314827393cc16f1b0f1cf4172f1cfc79897b28). You can leave the `gas price` as is or specify your own.
     <details><summary>Click to see screenshot</summary>
 
     ![buying_tokens_01](images/buying_tokens_01.png)
@@ -125,7 +125,7 @@ If you are using MyEtherWallet, you need to do the following:
 
 ## Managing tokens
 To add tokens to your wallet, you need the following information:
-* Token Contract Address - **[0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f](https://etherscan.io/token/0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f)**
+* Token Contract Address - **[0x7ff4169a6b5122b664c51c95727d87750ec07c84](https://etherscan.io/token/0x7ff4169a6b5122b664c51c95727d87750ec07c84)**
 * Token Symbol — **10SET**
 * Decimals — **18**
 
@@ -139,7 +139,7 @@ If you are using MyEtherWallet, you need to do the following:
 
     </details><br>
   
-3. Enter **0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f** in the `Token Contract Address` field, **10SET** in `Token Symbol` and **18** in `Decimals`. Click `Save`.
+3. Enter **0x7ff4169a6b5122b664c51c95727d87750ec07c84** in the `Token Contract Address` field, **10SET** in `Token Symbol` and **18** in `Decimals`. Click `Save`.
     <details><summary>Click to see screenshot</summary>
 
     ![managing_tokens_01](images/managing_tokens_02.png)

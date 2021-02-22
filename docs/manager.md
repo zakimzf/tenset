@@ -102,3 +102,30 @@ The first steps are similar to those described in the section [Obtaining the ABI
     ![reading_contract_01](images/reading_contract_01.png)
 
     </details>
+
+## How to set new token address in the CommonSale contract.
+1. Go to [CommonSale contract page](https://etherscan.io/address/0x93314827393cc16f1b0f1cf4172f1cfc79897b28#code), scroll down to the `Contract ABI` section, and press `Copy ABI to clipboard` button  
+    <details><summary>Click to see screenshot</summary>
+    
+    ![setting_new_token_01](images/setting_new_token_01.png)
+        
+    </details>
+
+2. Go to [myetherwallet.com](https://www.myetherwallet.com) and login using `0x68ce6f1a63cc76795a70cf9b9ca3f23293547303` address
+3. In the `Contract` section fill `ABI/JSON Interface` with `ABI` from the clipboard and enter `0x93314827393CC16F1b0f1cf4172F1CFC79897B28` in the `Contract Address` field.  
+    <details><summary>Click to see screenshot</summary>
+
+    ![setting_new_token_02](images/setting_new_token_02.png)
+    
+    </details>
+
+4. Click `Continue` button.
+5. Select `setToken` and enter `0x7ff4169a6b5122b664c51c95727d87750ec07c84` in the `NewTokenAddress` field.  
+    <details><summary>Click to see screenshot</summary>
+
+    ![setting_new_token_03.png](images/setting_new_token_03.png)
+    
+    </details>
+
+6. Click `Write`.
+7. Click `Confirm and Send`
