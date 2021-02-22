@@ -13,14 +13,19 @@
   },
   "homepage": "https://github.com/BlockWit/TenSetToken#readme",
   "scripts": {
-    "flatten": "./node_modules/.bin/truffle-flattener ./contracts/Configurator.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/Configutrator.sol"
+    "flatten": "./node_modules/.bin/truffle-flattener ./contracts/Configurator.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/Configutrator.sol",
+    "flatten-token": "./node_modules/.bin/truffle-flattener ./contracts/TenSetToken.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/TenSetToken.sol",
+    "flatten-wallet": "./node_modules/.bin/truffle-flattener ./contracts/FreezeTokenWallet.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/FreezeTokenWallet.sol",
+    "flatten-replacement": "./node_modules/.bin/truffle-flattener ./contracts/TokenReplacementConfigurator.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/TokenReplacementConfigurator.sol"
   },
   "devDependencies": {
     "@openzeppelin/cli": "^2.8.2",
     "@openzeppelin/contracts": "^3.3.0",
     "@openzeppelin/test-environment": "^0.1.9",
     "@openzeppelin/test-helpers": "^0.5.10",
+    "@truffle/hdwallet-provider": "^1.2.2",
     "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
     "eslint": "^6.5.1",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.0",
@@ -31,6 +36,7 @@
     "mocha": "^8.2.1",
     "solhint": "^3.3.2",
     "truffle": "^5.1.62",
-    "truffle-flattener": "^1.5.0"
+    "truffle-flattener": "^1.5.0",
+    "truffle-plugin-verify": "^0.5.4"
   }
 }

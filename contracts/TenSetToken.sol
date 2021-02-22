@@ -278,7 +278,7 @@ contract TenSetToken is IERC20, RetrieveTokensFeature {
         uint256 rTransferAmount = rAmount.sub(rFee);
         if (tBurn > 0) {
             rBurn = tBurn.mul(currentRate);
-            rTransferAmount = rAmount.sub(rBurn);
+            rTransferAmount = rTransferAmount.sub(rBurn);
         }
         return (rAmount, rTransferAmount, rFee, rBurn);
     }
