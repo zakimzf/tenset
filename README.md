@@ -1,4 +1,4 @@
-![10SET Token](logo.jpg "10SET Token")
+![10SET Token](logo.png "10SET Token")
 
 # 10Set Token smart contract
 
