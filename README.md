@@ -9,9 +9,9 @@
 * _Emission_        : Single, 210 000 000 tokens
 * _Fiat dependency_ : No
 * _Token offers_    : 3
-* _Token locks_     : No
+* _Token locks_     : Team, Marketing and Company Reserve 
 
-## Devevelopment and project management
+## Development and project management
 * Michał Pomykała
 * Gabriel Domanowski
 * Andrey Ovcharenko
@@ -22,14 +22,14 @@
 * Tomasz Keczkowski
 
 
-## Smart-contracts description
+## Smart contracts description
 
-10SET Token smart-contract
+10SET Token smart contract
 
 ### Contracts:
 1. _TenSETToken_ - Token contract
 2. _CommonSale_ - Sale contract 
-3. _FreezeWallet_ - A wallet for frozen team tokens. The total freezing period is 30 months. Every 3 months, 10% of the initial amount is unfrozen and transferred to the Team's wallet.
+3. _FreezeWallet_ - A wallet for frozen team tokens. Distributes 10set tokens for marketing, company reserve and the team that are being unfrozen with time. The deatils are below.
 4. _Configurator_
 
 ### Contracts arch
@@ -48,7 +48,7 @@
 
 ### How to manage contract
 To start working with the contract you should follow theese steps:
-1. Compile the conttract using Remix with `enamble optimization` flag and compiler version set to 0.6.2
+1. Compile the contract using Remix with `enamble optimization` flag and compiler version set to 0.6.2
 2. Deploy the contract using Remix + MetaMask. Set Gas limit to 7,000,000 (actually 6,433,413).
 
 ### Wallets with ERC20 support
@@ -64,7 +64,7 @@ EXODUS does not support ERC20, but provides the ability to export the private ke
 1. Company Reserve (10%): 21,000,000 10SET. The total freezing period is 48 months. Every 12 months, 25% of the initial amount will be unfrozen and ready for withdrawal using address 0x7BD3b301f3537c75bf64B7468998d20045cfa48e.
 2. Team (10%): 21,000,000 10SET. The total freezing period is 30 months. Every 3 months, 10% of the initial amount will be unfrozen and ready for withdrawal using address 0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7.
 3. Marketing (5%): 10,500,000 10SET. A half (5,250,000 10SET) will be transferred immediately to the address 0x127D069DC8B964a813889D349eD3dA3f6D35383D. The remaining 5,250,000 10SET will be frozen for 12 months. Every 3 months, 25% of the initial amount will be unfrozen and ready for withdrawal using address 0x127D069DC8B964a813889D349eD3dA3f6D35383D.
-4. Sales: 150,000,000 10SET (147,000,000 10SET plus compensation for the initial 2% transferring costs). These tokens will be distributed between CommonSale contract and existing users who participated in the first phase of the sale. 
+4. Sales: 150,000,000 10SET (147,000,000 10SET plus compensation for the initial 2% transferring costs). These tokens will be distributed between CommonSale contract and existing users who participated in a given phase of the sale. 
 5. Liquidity Reserve: 7,500,000 10SET (10,500,000 10SET minus tokens that went to compensation in paragraph 4). The entire amount will be unfrozen from the start and sent to the address 0x91E84302594deFaD552938B6D0D56e9f39908f9F.
 
 ### Sale stages
