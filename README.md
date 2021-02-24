@@ -34,7 +34,7 @@
 
 ### Contracts arch
 
-![Arch](10set_token_distribution_github_tenset.jpg "Arch")
+![Arch](10set_token_github.jpg "Arch")
 
 ### Contract features
 
