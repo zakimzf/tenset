@@ -107,7 +107,7 @@ common price: 1 ETH = 10000 10SET
 6. Team wallet owner address        : [0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7](https://etherscan.io/address/0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7)
 8. Marketig wallet owner address    : [0x127d069dc8b964a813889d349ed3da3f6d35383d](https://etherscan.io/address/0x127d069dc8b964a813889d349ed3da3f6d35383d)
 9. Liquidity reserve wallet address : [0x91e84302594defad552938b6d0d56e9f39908f9f](https://etherscan.io/address/0x91e84302594defad552938b6d0d56e9f39908f9f)
-10. Admin wallet address            : [0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303](https://etherscan.io/address/0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303)
+10. Admin wallet address            : [0x1563909Ee0eB1c8013c08aFB1eBC78C0dBD88E0D](https://etherscan.io/address/0x1563909Ee0eB1c8013c08aFB1eBC78C0dBD88E0D)
 
 ### Addresses
 1. _TenSETToken_ contract           : 0x7FF4169a6B5122b664c51c95727d87750eC07c84
@@ -121,7 +121,7 @@ common price: 1 ETH = 10000 10SET
 7. Team wallet owner address        : 0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7
 8. Marketig wallet owner address    : 0x127d069dc8b964a813889d349ed3da3f6d35383d
 9. Liquidity reserve wallet address : 0x91e84302594defad552938b6d0d56e9f39908f9f
-10. Admin wallet address            : 0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303
+10. Admin wallet address            : 0x1563909Ee0eB1c8013c08aFB1eBC78C0dBD88E0D
 
 ## Old token configuration 
 
