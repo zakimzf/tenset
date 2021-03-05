@@ -1,17 +1,17 @@
 {
-  "name": "TenSetToken",
+  "name": "Tenset",
   "version": "1.0.0",
   "description": "10Set Token",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BlockWit/TenSetToken.git"
+    "url": "git+https://github.com/TensetIO/tenset.git"
   },
-  "author": "BlockWit",
+  "author": "Tenset",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/BlockWit/TenSetToken/issues"
+    "url": "https://github.com/TensetIO/tenset/issues/"
   },
-  "homepage": "https://github.com/BlockWit/TenSetToken#readme",
+  "homepage": "https://github.com/TensetIO/tenset/issues/#readme",
   "scripts": {
     "flatten": "./node_modules/.bin/truffle-flattener ./contracts/Configurator.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/Configutrator.sol",
     "flatten-token": "./node_modules/.bin/truffle-flattener ./contracts/TenSetToken.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/TenSetToken.sol",
