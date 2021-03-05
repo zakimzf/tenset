@@ -102,7 +102,7 @@ common price: 1 ETH = 10000 10SET
 3. _Team wallet_ contract           : [0x33b896b1ac1633d6bffb5c5e1f33ed5a75a33604](https://etherscan.io/address/0x33b896b1ac1633d6bffb5c5e1f33ed5a75a33604)
 3. _Marketing wallet_ contract      : [0x497783aa46bc0f6a250e56e1ce5db977b03db318](https://etherscan.io/address/0x497783aa46bc0f6a250e56e1ce5db977b03db318)
 4. _Configurator_ contract          : [0x9253512d48D806F4F7588b886f49976e55db7e48](https://etherscan.io/address/0x9253512d48D806F4F7588b886f49976e55db7e48)
-5. ETH wallet address               : [0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303](https://etherscan.io/address/0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303)
+5. ETH wallet address               : [0x1563909Ee0eB1c8013c08aFB1eBC78C0dBD88E0D](https://etherscan.io/address/0x1563909Ee0eB1c8013c08aFB1eBC78C0dBD88E0D)
 5. Company wallet owner address     : [0x7BD3b301f3537c75bf64B7468998d20045cfa48e](https://etherscan.io/address/0x7BD3b301f3537c75bf64B7468998d20045cfa48e)
 6. Team wallet owner address        : [0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7](https://etherscan.io/address/0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7)
 8. Marketig wallet owner address    : [0x127d069dc8b964a813889d349ed3da3f6d35383d](https://etherscan.io/address/0x127d069dc8b964a813889d349ed3da3f6d35383d)
@@ -116,7 +116,7 @@ common price: 1 ETH = 10000 10SET
 3. _Team wallet_ contract           : 0x33b896b1ac1633d6bffb5c5e1f33ed5a75a33604
 3. _Marketing wallet_ contract      : 0x497783aa46bc0f6a250e56e1ce5db977b03db318
 4. _Configurator_ contract          : 0x9253512d48D806F4F7588b886f49976e55db7e48
-5. ETH wallet address               : 0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303
+5. ETH wallet address               : 0x1563909Ee0eB1c8013c08aFB1eBC78C0dBD88E0D
 6. Company wallet owner address     : 0x7BD3b301f3537c75bf64B7468998d20045cfa48e
 7. Team wallet owner address        : 0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7
 8. Marketig wallet owner address    : 0x127d069dc8b964a813889d349ed3da3f6d35383d
