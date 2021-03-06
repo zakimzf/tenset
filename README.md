@@ -123,68 +123,6 @@ common price: 1 ETH = 10000 10SET
 9. Liquidity reserve wallet address : 0x91e84302594defad552938b6d0d56e9f39908f9f
 10. Admin wallet address            : 0x1563909Ee0eB1c8013c08aFB1eBC78C0dBD88E0D
 
-## Old token configuration 
-
-### Token distibution
-1. Company Reserve (10%)            : 21,000,000 
-2. Team (10%)                       : 21,000,000
-3. Marketing (5%)                   : 10,500,000 
-4. Liquidity Reserve (5%)           : 10,500,000
-5. Sales                            : 147,000,000
-
-### Sale stages
-
-common price: 1 ETH = 10000 10SET
-
-#### Stage 1
-* Minimum purchase volume           : 0.1 ETH
-* Maximum purchase volume           : 40ETH
-* Bonus                             : 10%
-* HardCap                           : 11,000,000 10SET
-* Start date                        : 31/01/2021 (7pm GMT+1 time) (ethereum timestamp: 1612072800)
-* End date                          : 07/02/2021 (7pm GMT+1 time) (ethereum timestamp: 1612677600)
-
-#### Stage 2
-* Minimum purchase volume           : 0.1 ETH
-* Maximum purchase volume           : 100 ETH
-* Bonus                             : 5%
-* HardCap                           : 52,500,000 10SET
-* Start date                        : 07/03/2021 (7pm GMT+1 time) (ethereum timestamp: 1612677600)
-* End date                          : 14/03/2021 (7pm GMT+1 time) (ethereum timestamp: 1613282400)
-
-#### Stage 3
-* Minimum purchase volume           : 0 ETH
-* Maximum purchase volume           : 9999999999999999999999 ETH
-* Bonus                             : 0%
-* HardCap                           : 80,000,000 10SET
-* Start date                        : 14/03/2021 (7pm GMT+1 time) (ethereum timestamp: 1613282400)
-* End date                          : 14/03/9999 (7pm GMT+1 time) (ethereum timestamp: 253374588000)
-
-
-### Links 
-1. _TenSETToken_ contract           : [0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f](https://etherscan.io/token/0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f)
-2. _CommonSale_ contract            : [0x93314827393cc16f1b0f1cf4172f1cfc79897b28](https://etherscan.io/address/0x93314827393cc16f1b0f1cf4172f1cfc79897b28)
-3. _FreezeWallet_ contract          : [0x0e862fd2a5b1094eeb0b6279d315b6c1adc191b3](https://etherscan.io/address/0x0e862fd2a5b1094eeb0b6279d315b6c1adc191b3)
-4. _Configurator_ contract          : [0xed6601B73b831B0Bb2b59215d3E82c7016c9f2D5](https://etherscan.io/address/0xed6601b73b831b0bb2b59215d3e82c7016c9f2d5)
-5. ETH wallet address               : [0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303](https://etherscan.io/address/0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303)
-6. Company reserve wallet address   : [0x7BD3b301f3537c75bf64B7468998d20045cfa48e](https://etherscan.io/address/0x7BD3b301f3537c75bf64B7468998d20045cfa48e)
-7. Team wallet owner address        : [0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7](https://etherscan.io/address/0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7)
-8. Marketig wallet address          : [0x127D069DC8B964a813889D349eD3dA3f6D35383D](https://etherscan.io/address/0x127D069DC8B964a813889D349eD3dA3f6D35383D)
-9. Liquidity reserve wallet address : [0x91E84302594deFaD552938B6D0D56e9f39908f9F](https://etherscan.io/address/0x91E84302594deFaD552938B6D0D56e9f39908f9F)
-10. Admin wallet address            : [0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303](https://etherscan.io/address/0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303)
-
-### Addresses 
-1. _TenSETToken_ contract           : 0x7353c5f127895c2d7ba5d801fd8d81ff5760ff9f
-2. _CommonSale_ contract            : 0x93314827393cc16f1b0f1cf4172f1cfc79897b28
-3. _FreezeWallet_ contract          : 0x0e862fd2a5b1094eeb0b6279d315b6c1adc191b3
-4. _Configurator_ contract          : 0xed6601B73b831B0Bb2b59215d3E82c7016c9f2D5
-5. ETH wallet address               : 0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303
-6. Company reserve wallet address   : 0x7BD3b301f3537c75bf64B7468998d20045cfa48e
-7. Team wallet owner address        : 0x44C4A8d57B22597a2c0397A15CF1F32d8A4EA8F7
-8. Marketig wallet address          : 0x127D069DC8B964a813889D349eD3dA3f6D35383D
-9. Liquidity reserve wallet address : 0x91E84302594deFaD552938B6D0D56e9f39908f9F
-10. Admin wallet address            : 0x68CE6F1A63CC76795a70Cf9b9ca3f23293547303
-
 ### Transactions
 
 ## Test network configuration (Ropsten)
