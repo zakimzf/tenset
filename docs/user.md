@@ -85,12 +85,12 @@ All services have different commissions and different rates.
 Make sure the exchange rate suits you.
 
 ## Buying tokens
-In order to buy tokens you need to send at least 0.1 ether to the current crowdsale contract address: [0x93314827393cc16f1b0f1cf4172f1cfc79897b28](https://etherscan.io/address/0x93314827393cc16f1b0f1cf4172f1cfc79897b28#readContract)
+In order to buy tokens you need to send at least 0.1 ether to the current crowdsale contract address: [0x93314827393CC16F1b0f1cf4172F1CFC79897B28](https://etherscan.io/address/0x93314827393cc16f1b0f1cf4172f1cfc79897b28#readContract)
 
 Before sending, make sure that:
-1. You send at least 0.1 ETH (depending upon the configuration of the sales contract, this value may differ. See `minInvestedLimit` of the corresponding sales stage [here](https://etherscan.io/address/0x7FF4169a6B5122b664c51c95727d87750eC07c84#readContract)).
+1. You send at least 0.1 ETH (depending upon the configuration of the sales contract, this value may differ. See `minInvestedLimit` of the corresponding sales stage [here](https://etherscan.io/address/0x93314827393cc16f1b0f1cf4172f1cfc79897b28#readContract)).
 2. The amount of `gas` is greater than 250 000.
-3. `Gas price` — at least 200 Gwei. Transactions with less gas price will take longer. Gas price may change over time. See detailed information about gas price [here](https://etherscan.io/gastracker).
+3. `Gas price` — at least 30 Gwei. Transactions with less gas price will take longer. Gas price may change over time. See detailed information about gas price [here](https://etherscan.io/gastracker).
 
 If you are using MyEtherWallet, you need to do the following:
 1. Go to [myetherwallet.com](https://www.myetherwallet.com)

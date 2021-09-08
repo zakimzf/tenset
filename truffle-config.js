@@ -25,7 +25,8 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 const CONFIG = require('dotenv').config().parsed;
-const PRIVATE_KEYS = JSON.parse(CONFIG.PRIVATE_KEYS)
+const ETH_PRIVATE_KEYS = JSON.parse(CONFIG.ETH_PRIVATE_KEYS);
+const BSC_PRIVATE_KEYS = JSON.parse(CONFIG.BSC_PRIVATE_KEYS);
 
 module.exports = {
   /**
@@ -62,8 +63,17 @@ module.exports = {
     // },
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
+    bsctestnet: {
+      provider: () => new HDWalletProvider(BSC_PRIVATE_KEYS, `https://data-seed-prebsc-1-s1.binance.org:8545`),
+      network_id: 97,       // Ropsten's id
+      // gas: 5500000,        // Ropsten has a lower block limit than mainnet
+      gasPrice: 20000000000,// 2 Gwei
+      // confirmations: 2,    // # of confs to wait between deployments. (default: 0)
+      timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true     // Skip dry run before migrations? (default: false for public nets ) 
+    },
     ropsten: {
-      provider: () => new HDWalletProvider(PRIVATE_KEYS, `https://ropsten.infura.io/v3/${CONFIG.INFURA_KEY}`),
+      provider: () => new HDWalletProvider(ETH_PRIVATE_KEYS, `https://ropsten.infura.io/v3/${CONFIG.INFURA_KEY}`),
       network_id: 3,       // Ropsten's id
       // gas: 5500000,        // Ropsten has a lower block limit than mainnet
       gasPrice: 2000000000,// 2 Gwei
@@ -87,7 +97,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.6.2",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.6.4",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       settings: { 
        // See the solidity docs for advice about optimization and evmVersion
@@ -100,6 +110,7 @@ module.exports = {
     'truffle-plugin-verify'
   ],
   api_keys: {
+    bscscan: CONFIG.BSCSCAN_KEY,
     etherscan: CONFIG.ETHERSCAN_KEY
   }
 };

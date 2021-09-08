@@ -66,6 +66,51 @@ describe('Token', async function () {
       log('ratio2:\t\t' + ratio2.toString());
       log('ratio3:\t\t' + ratio3.toString());
     });
+
+    it('should transfer tokens correctly while one of accounts is excluded', async function() {
+      const tokensToSend = ether('1749');
+      const tokensToReceive = tokensToSend.mul(new BN(98)).div(new BN(100)); // 98%
+      const totalSupplyBefore = await token.totalSupply();
+      await token.excludeAccount(account1, {from: owner});
+      const balance1before = await token.balanceOf(account1);
+      const balance2before = await token.balanceOf(account2);
+      const balance3before = await token.balanceOf(account3);
+      await token.transfer(account2, tokensToSend, {from: account1})
+      const totalSupplyAfter = await token.totalSupply();
+      const balance1after = await token.balanceOf(account1);
+      const balance2after = await token.balanceOf(account2);
+      const balance3after = await token.balanceOf(account3);
+      const diff1 = balance1after.add(tokensToSend).sub(balance1before);
+      const diff2 = balance2after.sub(balance2before).sub(tokensToReceive);
+      const diff3 = balance3after.sub(balance3before);
+      // const ratio1 = balance1after.div(diff1);
+      const ratio2 = balance2after.div(diff2);
+      const ratio3 = balance3after.div(diff3);
+      // expect(ratio1).to.be.bignumber.equal(ratio2);
+      // expect(ratio2).to.be.bignumber.equal(ratio3);
+      log('------------');
+      log('Tokens to receive:\t' + tokensToReceive);
+      log('BEFORE');
+      log('total:\t\t' + totalSupplyBefore.toString());
+      log('balance1:\t' + balance1before.toString());
+      log('balance2:\t' + balance2before.toString());
+      log('balance3:\t' + balance3before.toString());
+      log('------------');
+      log('AFTER');
+      log('total:\t\t' + totalSupplyAfter.toString());
+      log('balance1:\t' + balance1after.toString());
+      log('balance2:\t' + balance2after.toString());
+      log('balance3:\t' + balance3after.toString());
+      log('------------');
+      log('burnt:\t\t' + totalSupplyBefore.sub(totalSupplyAfter).toString());
+      log('diff1:\t\t' + diff1.toString());
+      log('diff2:\t\t' + diff2.toString());
+      log('diff3:\t\t' + diff3.toString());
+      log('diff sum:\t' + diff1.add(diff2).add(diff3));
+      // log('ratio1:\t\t' + ratio1.toString());
+      log('ratio2:\t\t' + ratio2.toString());
+      log('ratio3:\t\t' + ratio3.toString());
+    });
     
     it('should stop burning tokens as soon as the total amount reaches 1% of the initial', async function () {
       await token.burn(SUPPLY1, {from: account1});

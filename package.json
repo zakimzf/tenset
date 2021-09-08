@@ -1,22 +1,23 @@
 {
-  "name": "Tenset",
+  "name": "TenSetToken",
   "version": "1.0.0",
   "description": "10Set Token",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TensetIO/tenset.git"
+    "url": "git+https://github.com/BlockWit/TenSetToken.git"
   },
-  "author": "Tenset",
+  "author": "BlockWit",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TensetIO/tenset/issues/"
+    "url": "https://github.com/BlockWit/TenSetToken/issues"
   },
-  "homepage": "https://github.com/TensetIO/tenset/issues/#readme",
+  "homepage": "https://github.com/BlockWit/TenSetToken#readme",
   "scripts": {
-    "flatten": "./node_modules/.bin/truffle-flattener ./contracts/Configurator.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/Configutrator.sol",
-    "flatten-token": "./node_modules/.bin/truffle-flattener ./contracts/TenSetToken.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/TenSetToken.sol",
-    "flatten-wallet": "./node_modules/.bin/truffle-flattener ./contracts/FreezeTokenWallet.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/FreezeTokenWallet.sol",
-    "flatten-replacement": "./node_modules/.bin/truffle-flattener ./contracts/TokenReplacementConfigurator.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/TokenReplacementConfigurator.sol"
+    "flatten": "./node_modules/.bin/truffle-flattener ./contracts/distribution/Configurator.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/Configutrator.sol",
+    "flatten-mock": "./node_modules/.bin/truffle-flattener ./contracts/mock/ERC20Mock.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/ERC20Mock.sol",
+    "flatten-token": "./node_modules/.bin/truffle-flattener ./contracts/token/TenSetToken.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/TenSetToken.sol",
+    "flatten-wallet": "./node_modules/.bin/truffle-flattener ./contracts/wallet/FreezeTokenWallet.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/FreezeTokenWallet.sol",
+    "flatten-replacement": "./node_modules/.bin/truffle-flattener ./contracts/distribution/TokenReplacementConfigurator.sol | awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./deploy/TokenReplacementConfigurator.sol"
   },
   "devDependencies": {
     "@openzeppelin/cli": "^2.8.2",
@@ -37,6 +38,7 @@
     "solhint": "^3.3.2",
     "truffle": "^5.1.62",
     "truffle-flattener": "^1.5.0",
-    "truffle-plugin-verify": "^0.5.4"
+    "truffle-plugin-verify": "^0.5.4",
+    "web3": "^1.3.5"
   }
 }
